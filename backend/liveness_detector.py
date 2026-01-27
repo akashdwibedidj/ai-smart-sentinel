@@ -1,15 +1,36 @@
 """
-Advanced Liveness Detector - Phase 1
-Implements passive liveness detection to catch phone screens and photos
-Uses: Moiré pattern detection, motion analysis, texture analysis
+Advanced Liveness Detector - Phase 1, 2, and 3
+Implements passive and active liveness detection to catch phone screens, photos, and videos
+Phase 1: Moiré pattern detection, motion analysis, texture analysis
+Phase 2: Screen glow detection, color uniformity, enhanced edge sharpness
+Phase 3: rPPG heartbeat detection (PRIMARY ANTI-SPOOFING METHOD)
 """
 
 import cv2
 import numpy as np
 from scipy import fftpack
+import time
+
+# Phase 3: Import rPPG detector
+try:
+    from rppg_detector import RPPGDetector
+    RPPG_AVAILABLE = True
+except ImportError:
+    RPPG_AVAILABLE = False
+    print("Warning: rPPG detector not available. Phase 3 heartbeat detection disabled.")
 
 class LivenessDetector:
-    def __init__(self):
+    def __init__(self, mode='passive', enable_rppg=True):
+        """
+        Initialize Liveness Detector
+        
+        Args:
+            mode: 'passive' (default) or 'active' (includes challenges)
+            enable_rppg: Enable Phase 3 rPPG heartbeat detection (default True)
+        """
+        self.mode = mode
+        self.enable_rppg = enable_rppg and RPPG_AVAILABLE
+        
         # Thresholds - ADJUSTED FOR LOW-QUALITY WEBCAMS
         self.texture_threshold = 20  # Lowered from 50
         self.motion_threshold = 0.5  # Lowered from 2.0 (more lenient)
@@ -19,6 +40,14 @@ class LivenessDetector:
         # Frame history for motion analysis
         self.frame_history = []
         self.max_history = 5
+        
+        # Phase 3: rPPG heartbeat detection
+        if self.enable_rppg:
+            self.rppg_detector = RPPGDetector(fps=30, window_size=10)
+            self.heartbeat_detected = False
+            self.current_bpm = 0
+        else:
+            self.rppg_detector = None
         
     def detect_moire_pattern(self, frame):
         """
@@ -112,9 +141,73 @@ class LivenessDetector:
         
         return is_suspicious, motion_variance, details
     
+    def detect_screen_glow(self, frame):
+        """
+        PHASE 2: Detect screen backlight glow
+        Screens emit light uniformly, real faces reflect light with variations
+        """
+        # Convert to HSV for better brightness analysis
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        value_channel = hsv[:, :, 2]  # Brightness channel
+        
+        # Analyze brightness distribution
+        mean_brightness = np.mean(value_channel)
+        brightness_std = np.std(value_channel)
+        
+        # Screens have more uniform brightness (lower std deviation)
+        # Real faces have shadows and highlights (higher std deviation)
+        uniformity_ratio = brightness_std / (mean_brightness + 1e-6)
+        
+        # Check for suspicious uniformity
+        is_too_uniform = uniformity_ratio < 0.3  # Screens are very uniform
+        
+        # Also check for backlight glow in dark regions
+        # Screens glow even in "dark" areas, real faces don't
+        dark_threshold = 50
+        dark_pixels = value_channel < dark_threshold
+        if np.sum(dark_pixels) > 0:
+            dark_region_brightness = np.mean(value_channel[dark_pixels])
+            has_glow = dark_region_brightness > 30  # Screens glow in dark areas
+        else:
+            has_glow = False
+        
+        is_screen = is_too_uniform or has_glow
+        
+        return is_screen, uniformity_ratio, {
+            "uniformity_ratio": uniformity_ratio,
+            "mean_brightness": mean_brightness,
+            "brightness_std": brightness_std,
+            "has_dark_glow": has_glow
+        }
+    
+    def check_color_uniformity(self, frame):
+        """
+        PHASE 2: Check color distribution uniformity
+        Screens have perfect color distribution, real faces have variations
+        """
+        # Split into color channels
+        b, g, r = cv2.split(frame)
+        
+        # Calculate color variance in each channel
+        b_var = np.var(b)
+        g_var = np.var(g)
+        r_var = np.var(r)
+        
+        # Calculate color balance (screens have perfect balance)
+        color_balance = np.std([b_var, g_var, r_var])
+        
+        # Real faces have natural color variations
+        # Screens have very balanced color channels
+        is_too_balanced = color_balance < 200  # Adjusted for webcams
+        
+        return is_too_balanced, color_balance, {
+            "color_balance": color_balance,
+            "channel_variances": {"b": b_var, "g": g_var, "r": r_var}
+        }
+    
     def analyze_edge_sharpness(self, frame):
         """
-        Analyze edge sharpness
+        PHASE 2 ENHANCED: Analyze edge sharpness with gradient consistency
         Photos/screens have artificially sharp edges
         Real faces have natural blur at edges
         """
@@ -130,12 +223,27 @@ class LivenessDetector:
         laplacian = cv2.Laplacian(gray, cv2.CV_64F)
         sharpness = laplacian.var()
         
+        # PHASE 2: Check gradient consistency
+        # Real faces have gradual gradients, screens have sharp transitions
+        sobelx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
+        sobely = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
+        gradient_magnitude = np.sqrt(sobelx**2 + sobely**2)
+        
+        # Calculate gradient consistency (variance of gradients)
+        gradient_consistency = np.std(gradient_magnitude)
+        
+        # Screens have very consistent gradients (low variance)
+        # Real faces have varied gradients (high variance)
+        is_too_consistent = gradient_consistency < 15
+        
         # Photos/screens have higher edge density and sharpness
-        is_too_sharp = sharpness > self.edge_sharpness_threshold
+        is_too_sharp = sharpness > self.edge_sharpness_threshold or is_too_consistent
         
         return is_too_sharp, sharpness, {
             "edge_density": edge_density,
-            "sharpness": sharpness
+            "sharpness": sharpness,
+            "gradient_consistency": gradient_consistency,
+            "too_consistent": is_too_consistent
         }
     
     def detect_texture_quality(self, frame):
@@ -172,10 +280,48 @@ class LivenessDetector:
             'texture_score': texture_score
         }
     
+    def detect_heartbeat_rppg(self, frame, face_bbox=None):
+        """
+        PHASE 3: Detect heartbeat using rPPG (Remote Photoplethysmography)
+        This is the most powerful anti-spoofing method - photos/screens have no blood flow
+        
+        Args:
+            frame: Input BGR frame
+            face_bbox: (x, y, w, h) face bounding box (optional, will detect if None)
+            
+        Returns:
+            (has_heartbeat, bpm, confidence, details)
+        """
+        if not self.enable_rppg or self.rppg_detector is None:
+            return False, 0, 0, {"error": "rppg_disabled"}
+        
+        # If no face bbox provided, detect face
+        if face_bbox is None:
+            # Simple face detection using Haar Cascade
+            face_cascade = cv2.CascadeClassifier(
+                cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
+            )
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+            
+            if len(faces) == 0:
+                return False, 0, 0, {"error": "no_face_detected"}
+            
+            face_bbox = faces[0]  # Use first face
+        
+        # Process frame with rPPG detector
+        has_heartbeat, bpm, confidence, details = \
+            self.rppg_detector.detect_heartbeat(frame, face_bbox)
+        
+        # Update state
+        self.heartbeat_detected = has_heartbeat
+        self.current_bpm = bpm
+        
+        return has_heartbeat, bpm, confidence, details
+    
     def hybrid_liveness_check(self, frame):
         """
-        Comprehensive liveness check combining all methods
-        Returns: (is_real, confidence, details)
+        PHASE 2: Comprehensive liveness check with screen glow and color analysis
         """
         details = {}
         spoof_indicators = []
@@ -212,9 +358,47 @@ class LivenessDetector:
             spoof_indicators.append("unrealistic_texture")
             confidence_factors.append(50)
         
+        # PHASE 2: Screen glow detection
+        has_screen_glow, uniformity, glow_details = self.detect_screen_glow(frame)
+        details['screen_glow'] = glow_details
+        if has_screen_glow:
+            spoof_indicators.append("screen_backlight_detected")
+            confidence_factors.append(80)
+        
+        # PHASE 2: Color uniformity check
+        is_too_balanced, color_balance, color_details = self.check_color_uniformity(frame)
+        details['color_uniformity'] = color_details
+        if is_too_balanced:
+            spoof_indicators.append("artificial_color_balance")
+            confidence_factors.append(65)
+        
+        # PHASE 3: rPPG Heartbeat Detection (MOST POWERFUL CHECK)
+        if self.enable_rppg:
+            has_heartbeat, bpm, heartbeat_conf, heartbeat_details = self.detect_heartbeat_rppg(frame)
+            details['heartbeat'] = heartbeat_details
+            
+            if heartbeat_details.get("status") == "collecting_data":
+                # Still collecting data, don't penalize
+                details['heartbeat']['note'] = "collecting_heartbeat_data"
+            elif not has_heartbeat and heartbeat_details.get("status") != "collecting_data":
+                # No heartbeat detected = strong spoof indicator
+                spoof_indicators.append("no_heartbeat_detected")
+                confidence_factors.append(95)  # Highest confidence - impossible to fake
+            elif has_heartbeat:
+                # Heartbeat detected = strong real face indicator
+                details['heartbeat']['bpm'] = bpm
+                details['heartbeat']['detected'] = True
+        
         # Make final decision
-        # ADJUSTED: Require 3 indicators for high confidence spoof detection
-        if len(spoof_indicators) >= 3:
+        # UPDATED: Phase 3 changes decision logic
+        # If no heartbeat detected (and not still collecting), it's almost certainly a spoof
+        if "no_heartbeat_detected" in spoof_indicators:
+            # No heartbeat = very strong spoof indicator
+            is_real = False
+            confidence = 90  # High confidence it's a spoof
+            details['decision'] = 'SPOOF_DETECTED_NO_HEARTBEAT'
+            details['reasons'] = spoof_indicators
+        elif len(spoof_indicators) >= 3:
             # Multiple indicators = likely spoof
             is_real = False
             confidence = np.mean(confidence_factors) if confidence_factors else 75
