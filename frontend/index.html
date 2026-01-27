@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Smart Sentinel - Security System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ AI Smart Sentinel</h1>
+            <p class="subtitle">Advanced Face Recognition & Injection Detection System</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Camera Feed Section -->
+            <div class="camera-section">
+                <div class="video-container">
+                    <video id="videoElement" autoplay playsinline></video>
+                    <canvas id="canvas" style="display: none;"></canvas>
+                </div>
+                
+                <div class="controls">
+                    <button id="startCamera" class="btn btn-primary">📷 Start Camera</button>
+                    <button id="stopCamera" class="btn btn-secondary" disabled>⏹️ Stop Camera</button>
+                </div>
+            </div>
+
+            <!-- Actions Section -->
+            <div class="actions-section">
+                <div class="action-card">
+                    <h3>Register New Face</h3>
+                    <input type="text" id="personId" placeholder="Enter Person ID" class="input-field">
+                    <button id="registerBtn" class="btn btn-success">✓ Register Face</button>
+                </div>
+
+                <div class="action-card">
+                    <h3>Verify Access</h3>
+                    <button id="verifyBtn" class="btn btn-primary">🔍 Verify Face</button>
+                </div>
+
+                <div class="action-card">
+                    <h3>Registered Faces</h3>
+                    <button id="listFacesBtn" class="btn btn-info">📋 View List</button>
+                    <div id="facesList" class="faces-list"></div>
+                </div>
+            </div>
+
+            <!-- Status Section -->
+            <div class="status-section">
+                <h3>System Status</h3>
+                <div id="statusDisplay" class="status-display">
+                    <p>🟢 System Ready</p>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <h3>Verification Results</h3>
+                <div id="resultsDisplay" class="results-display">
+                    <p class="placeholder">Results will appear here...</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>AI Smart Sentinel © 2026 | Advanced Security System</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

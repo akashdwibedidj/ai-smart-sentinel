@@ -1,0 +1,104 @@
+[
+  {
+    "timestamp": "2026-01-26T20:39:27.157181",
+    "access_granted": false,
+    "decision": "INJECTION_ATTACK_DETECTED",
+    "reason": [
+      "Injection attack detected (80% confidence)"
+    ],
+    "confidence": 80,
+    "person_id": "john_doe",
+    "checks": {
+      "injection_check": {
+        "passed": false,
+        "confidence": 80,
+        "details": {
+          "virtual_camera": true
+        }
+      },
+      "liveness_check": {},
+      "face_verification": {}
+    }
+  },
+  {
+    "timestamp": "2026-01-26T20:39:27.158175",
+    "access_granted": false,
+    "decision": "SPOOF_DETECTED",
+    "reason": [
+      "Presentation attack detected (confidence: 85.0%)"
+    ],
+    "confidence": 85,
+    "person_id": "john_doe",
+    "checks": {
+      "injection_check": {
+        "passed": true,
+        "confidence": 90,
+        "details": {}
+      },
+      "liveness_check": {
+        "passed": false,
+        "confidence": 85,
+        "details": {
+          "is_real": false
+        }
+      },
+      "face_verification": {}
+    }
+  },
+  {
+    "timestamp": "2026-01-26T20:39:27.175167",
+    "access_granted": false,
+    "decision": "FACE_MISMATCH",
+    "reason": [
+      "Face does not match registered ID (similarity: 45.0%)"
+    ],
+    "confidence": 45,
+    "person_id": "unknown",
+    "checks": {
+      "injection_check": {
+        "passed": true,
+        "confidence": 95,
+        "details": {}
+      },
+      "liveness_check": {
+        "passed": true,
+        "confidence": 92,
+        "details": {}
+      },
+      "face_verification": {
+        "passed": false,
+        "similarity": 45,
+        "person_id": "unknown",
+        "details": {}
+      }
+    }
+  },
+  {
+    "timestamp": "2026-01-26T20:39:27.193173",
+    "access_granted": true,
+    "decision": "ACCESS_GRANTED",
+    "reason": [
+      "All security checks passed"
+    ],
+    "confidence": 92.2,
+    "person_id": "john_doe",
+    "checks": {
+      "injection_check": {
+        "passed": true,
+        "confidence": 95,
+        "details": {}
+      },
+      "liveness_check": {
+        "passed": true,
+        "confidence": 95,
+        "details": {}
+      },
+      "face_verification": {
+        "passed": true,
+        "similarity": 88,
+        "person_id": "john_doe",
+        "details": {}
+      }
+    }
+  }
+]

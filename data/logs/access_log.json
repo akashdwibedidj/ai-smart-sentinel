@@ -1,0 +1,391 @@
+[
+  {
+    "timestamp": "2026-01-26T22:17:15.213578",
+    "access_granted": false,
+    "decision": "SPOOF_DETECTED",
+    "reason": [
+      "Presentation attack detected (confidence: 5.2%)"
+    ],
+    "confidence": 5.217078388059348,
+    "person_id": "unknown",
+    "checks": {
+      "injection_check": {
+        "passed": true,
+        "confidence": 100,
+        "details": {
+          "virtual_camera": false,
+          "sensor_noise": false,
+          "stability": false,
+          "metadata": false,
+          "details": {
+            "virtual_camera": "No virtual camera detected",
+            "noise_level": 3.448033954056861
+          }
+        }
+      },
+      "liveness_check": {
+        "passed": false,
+        "confidence": 5.217078388059348,
+        "details": {
+          "deepface": "Error: extract_faces() got an unexpected keyword argument 'anti_spoofing'",
+          "texture": {
+            "laplacian": 11.888938148328991,
+            "gradient": 9.706766090013549,
+            "texture_score": 0.31302470328356086
+          },
+          "method": "Hybrid (DeepFace + Texture)",
+          "final_decision": false,
+          "confidence": 5.217078388059348
+        }
+      },
+      "face_verification": {}
+    },
+    "screenshot": "data/logs\\screenshots\\20260126_221715_SPOOF_DETECTED.jpg"
+  },
+  {
+    "timestamp": "2026-01-26T22:17:16.484746",
+    "access_granted": false,
+    "decision": "SPOOF_DETECTED",
+    "reason": [
+      "Presentation attack detected (confidence: 5.3%)"
+    ],
+    "confidence": 5.324409213908226,
+    "person_id": "unknown",
+    "checks": {
+      "injection_check": {
+        "passed": true,
+        "confidence": 100,
+        "details": {
+          "virtual_camera": false,
+          "sensor_noise": false,
+          "stability": false,
+          "metadata": false,
+          "details": {
+            "virtual_camera": "No virtual camera detected",
+            "noise_level": 3.5016136837445613,
+            "movement_score": 2.371162109375
+          }
+        }
+      },
+      "liveness_check": {
+        "passed": false,
+        "confidence": 5.324409213908226,
+        "details": {
+          "deepface": "Error: extract_faces() got an unexpected keyword argument 'anti_spoofing'",
+          "texture": {
+            "laplacian": 12.261298390187156,
+            "gradient": 9.842578446631103,
+            "texture_score": 0.3194645528344936
+          },
+          "method": "Hybrid (DeepFace + Texture)",
+          "final_decision": false,
+          "confidence": 5.324409213908226
+        }
+      },
+      "face_verification": {}
+    },
+    "screenshot": "data/logs\\screenshots\\20260126_221716_SPOOF_DETECTED.jpg"
+  },
+  {
+    "timestamp": "2026-01-26T22:19:25.096932",
+    "access_granted": false,
+    "decision": "SPOOF_DETECTED",
+    "reason": [
+      "Presentation attack detected (confidence: 5.5%)"
+    ],
+    "confidence": 5.5222010236234205,
+    "person_id": "01",
+    "checks": {
+      "injection_check": {
+        "passed": true,
+        "confidence": 100,
+        "details": {
+          "virtual_camera": false,
+          "sensor_noise": false,
+          "stability": false,
+          "metadata": false,
+          "details": {
+            "virtual_camera": "No virtual camera detected",
+            "noise_level": 3.6078657920341115,
+            "movement_score": 11.04125
+          }
+        }
+      },
+      "liveness_check": {
+        "passed": false,
+        "confidence": 5.5222010236234205,
+        "details": {
+          "deepface": "Error: extract_faces() got an unexpected keyword argument 'anti_spoofing'",
+          "texture": {
+            "laplacian": 13.016695573329926,
+            "gradient": 10.0582552842053,
+            "texture_score": 0.33133206141740523
+          },
+          "method": "Hybrid (DeepFace + Texture)",
+          "final_decision": false,
+          "confidence": 5.5222010236234205
+        }
+      },
+      "face_verification": {}
+    },
+    "screenshot": "data/logs\\screenshots\\20260126_221925_SPOOF_DETECTED.jpg"
+  },
+  {
+    "timestamp": "2026-01-26T22:19:29.356110",
+    "access_granted": false,
+    "decision": "SPOOF_DETECTED",
+    "reason": [
+      "Presentation attack detected (confidence: 5.3%)"
+    ],
+    "confidence": 5.32967641390528,
+    "person_id": "01",
+    "checks": {
+      "injection_check": {
+        "passed": true,
+        "confidence": 100,
+        "details": {
+          "virtual_camera": false,
+          "sensor_noise": false,
+          "stability": false,
+          "metadata": false,
+          "details": {
+            "virtual_camera": "No virtual camera detected",
+            "noise_level": 3.514582654419663,
+            "movement_score": 9.167939453125
+          }
+        }
+      },
+      "liveness_check": {
+        "passed": false,
+        "confidence": 5.32967641390528,
+        "details": {
+          "deepface": "Error: extract_faces() got an unexpected keyword argument 'anti_spoofing'",
+          "texture": {
+            "laplacian": 12.352291234747566,
+            "gradient": 9.812883624342058,
+            "texture_score": 0.3197805848343168
+          },
+          "method": "Hybrid (DeepFace + Texture)",
+          "final_decision": false,
+          "confidence": 5.32967641390528
+        }
+      },
+      "face_verification": {}
+    },
+    "screenshot": "data/logs\\screenshots\\20260126_221929_SPOOF_DETECTED.jpg"
+  },
+  {
+    "timestamp": "2026-01-26T22:19:42.322613",
+    "access_granted": false,
+    "decision": "SPOOF_DETECTED",
+    "reason": [
+      "Presentation attack detected (confidence: 5.5%)"
+    ],
+    "confidence": 5.461781645507413,
+    "person_id": "01",
+    "checks": {
+      "injection_check": {
+        "passed": true,
+        "confidence": 100,
+        "details": {
+          "virtual_camera": false,
+          "sensor_noise": false,
+          "stability": false,
+          "metadata": false,
+          "details": {
+            "virtual_camera": "No virtual camera detected",
+            "noise_level": 3.560898462972511,
+            "movement_score": 10.809384765625
+          }
+        }
+      },
+      "liveness_check": {
+        "passed": false,
+        "confidence": 5.461781645507413,
+        "details": {
+          "deepface": "Error: extract_faces() got an unexpected keyword argument 'anti_spoofing'",
+          "texture": {
+            "laplacian": 12.679997863599992,
+            "gradient": 10.045346004722244,
+            "texture_score": 0.3277068987304448
+          },
+          "method": "Hybrid (DeepFace + Texture)",
+          "final_decision": false,
+          "confidence": 5.461781645507413
+        }
+      },
+      "face_verification": {}
+    },
+    "screenshot": "data/logs\\screenshots\\20260126_221942_SPOOF_DETECTED.jpg"
+  },
+  {
+    "timestamp": "2026-01-26T22:19:57.474656",
+    "access_granted": false,
+    "decision": "SPOOF_DETECTED",
+    "reason": [
+      "Presentation attack detected (confidence: 5.2%)"
+    ],
+    "confidence": 5.231893942189527,
+    "person_id": "02",
+    "checks": {
+      "injection_check": {
+        "passed": true,
+        "confidence": 100,
+        "details": {
+          "virtual_camera": false,
+          "sensor_noise": false,
+          "stability": false,
+          "metadata": false,
+          "details": {
+            "virtual_camera": "No virtual camera detected",
+            "noise_level": 3.4454541870724062,
+            "movement_score": 11.412164713541667
+          }
+        }
+      },
+      "liveness_check": {
+        "passed": false,
+        "confidence": 5.231893942189527,
+        "details": {
+          "deepface": "Error: extract_faces() got an unexpected keyword argument 'anti_spoofing'",
+          "texture": {
+            "laplacian": 11.871154555214774,
+            "gradient": 9.760104548961193,
+            "texture_score": 0.3139136365313716
+          },
+          "method": "Hybrid (DeepFace + Texture)",
+          "final_decision": false,
+          "confidence": 5.231893942189527
+        }
+      },
+      "face_verification": {}
+    },
+    "screenshot": "data/logs\\screenshots\\20260126_221957_SPOOF_DETECTED.jpg"
+  },
+  {
+    "timestamp": "2026-01-26T22:20:01.187345",
+    "access_granted": false,
+    "decision": "SPOOF_DETECTED",
+    "reason": [
+      "Presentation attack detected (confidence: 5.6%)"
+    ],
+    "confidence": 5.628231286026471,
+    "person_id": "01",
+    "checks": {
+      "injection_check": {
+        "passed": true,
+        "confidence": 100,
+        "details": {
+          "virtual_camera": false,
+          "sensor_noise": false,
+          "stability": false,
+          "metadata": false,
+          "details": {
+            "virtual_camera": "No virtual camera detected",
+            "noise_level": 3.6583402723334912,
+            "movement_score": 4.632662760416666
+          }
+        }
+      },
+      "liveness_check": {
+        "passed": false,
+        "confidence": 5.628231286026471,
+        "details": {
+          "deepface": "Error: extract_faces() got an unexpected keyword argument 'anti_spoofing'",
+          "texture": {
+            "laplacian": 13.383453548177084,
+            "gradient": 10.19296708399087,
+            "texture_score": 0.3376938771615883
+          },
+          "method": "Hybrid (DeepFace + Texture)",
+          "final_decision": false,
+          "confidence": 5.628231286026471
+        }
+      },
+      "face_verification": {}
+    },
+    "screenshot": "data/logs\\screenshots\\20260126_222001_SPOOF_DETECTED.jpg"
+  },
+  {
+    "timestamp": "2026-01-26T22:20:01.238147",
+    "access_granted": false,
+    "decision": "SPOOF_DETECTED",
+    "reason": [
+      "Presentation attack detected (confidence: 5.5%)"
+    ],
+    "confidence": 5.539163840266448,
+    "person_id": "01",
+    "checks": {
+      "injection_check": {
+        "passed": true,
+        "confidence": 100,
+        "details": {
+          "virtual_camera": false,
+          "sensor_noise": false,
+          "stability": false,
+          "metadata": false,
+          "details": {
+            "virtual_camera": "No virtual camera detected",
+            "noise_level": 3.5981078394580615,
+            "movement_score": 12.705250651041666
+          }
+        }
+      },
+      "liveness_check": {
+        "passed": false,
+        "confidence": 5.539163840266448,
+        "details": {
+          "deepface": "Error: extract_faces() got an unexpected keyword argument 'anti_spoofing'",
+          "texture": {
+            "laplacian": 12.946380024369558,
+            "gradient": 10.144301508614562,
+            "texture_score": 0.33234983041598687
+          },
+          "method": "Hybrid (DeepFace + Texture)",
+          "final_decision": false,
+          "confidence": 5.539163840266448
+        }
+      },
+      "face_verification": {}
+    },
+    "screenshot": "data/logs\\screenshots\\20260126_222001_SPOOF_DETECTED.jpg"
+  },
+  {
+    "timestamp": "2026-01-26T23:27:35.613681",
+    "access_granted": false,
+    "decision": "SPOOF_DETECTED",
+    "reason": [
+      "Presentation attack detected (confidence: 6.7%)"
+    ],
+    "confidence": 6.732177562322477,
+    "person_id": "123",
+    "checks": {
+      "injection_check": {
+        "passed": true,
+        "confidence": 100,
+        "details": {
+          "virtual_camera": false,
+          "sensor_noise": false,
+          "stability": false,
+          "metadata": false,
+          "details": {
+            "virtual_camera": "No virtual camera detected",
+            "noise_level": 3.6724520455390346
+          }
+        }
+      },
+      "liveness_check": {
+        "passed": false,
+        "confidence": 6.732177562322477,
+        "details": {
+          "laplacian": 13.486904026783838,
+          "gradient": 10.086991892414272,
+          "texture_score": 3.3660887811612383,
+          "method": "texture_analysis"
+        }
+      },
+      "face_verification": {}
+    },
+    "screenshot": "data/logs\\screenshots\\20260126_232735_SPOOF_DETECTED.jpg"
+  }
+]
