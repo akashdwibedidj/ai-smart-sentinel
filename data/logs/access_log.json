@@ -387,5 +387,34 @@
       "face_verification": {}
     },
     "screenshot": "data/logs\\screenshots\\20260126_232735_SPOOF_DETECTED.jpg"
-  }
-]
+  },
+  {
+    "timestamp": "2026-01-27T23:18:33.515465",
+    "access_granted": false,
+    "decision": "SPOOF_DETECTED",
+    "reason": [
+      "Presentation attack detected (confidence: 63.3%)"
+    ],
+    "confidence": 63.333333333333336,
+    "person_id": "123",
+    "checks": {
+      "injection_check": {
+        "passed": true,
+        "confidence": 100,
+        "details": {
+          "virtual_camera": false,
+          "sensor_noise": false,
+          "stability": false,
+          "metadata": false,
+          "details": {
+            "virtual_camera": "No virtual camera detected",
+            "noise_level": 4.571556008630625
+          }
+        }
+      },
+      "liveness_check": {
+        "passed": false,
+        "confidence": 63.333333333333336,
+        "details": {
+          "moire": {
+            "detected": 

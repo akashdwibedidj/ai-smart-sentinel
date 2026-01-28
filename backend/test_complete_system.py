@@ -163,7 +163,8 @@ def main():
             x, y, w, h = faces[0]
             face_roi = frame[y:y+h, x:x+w]
             
-            match_found, match_name, similarity = face_verifier.verify_face(face_roi)
+            # verify_face returns 4 values: (matched, similarity, person_id, details)
+            match_found, similarity, match_name, details = face_verifier.verify_face(face_roi)
             
             if match_found:
                 face_verified = True
@@ -223,7 +224,9 @@ def main():
         # Phase 2: Face Verification
         if use_face_verification:
             if liveness_passed and face_verified:
-                cv2.putText(frame, f"PHASE 2: VERIFIED - {verified_name}", (10, y_pos),
+                # Get person name if available
+                display_name = face_verifier.names_database.get(verified_name, verified_name)
+                cv2.putText(frame, f"PHASE 2: VERIFIED - {display_name}", (10, y_pos),
                            cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
             elif liveness_passed and not face_verified:
                 cv2.putText(frame, "PHASE 2: UNKNOWN PERSON", (10, y_pos),

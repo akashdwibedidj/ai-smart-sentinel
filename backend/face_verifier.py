@@ -30,6 +30,23 @@ class FaceVerifier:
         # Load registered faces database
         self.database = self.load_database()
         
+        # Load names database (maps person_id to name)
+        self.names_database = self.load_names_database()
+    
+    def load_names_database(self):
+        """Load person names database"""
+        names_file = os.path.join(self.database_dir, 'names_database.pkl')
+        if os.path.exists(names_file):
+            with open(names_file, 'rb') as f:
+                return pickle.load(f)
+        return {}
+    
+    def save_names_database(self):
+        """Save names database to disk"""
+        names_file = os.path.join(self.database_dir, 'names_database.pkl')
+        with open(names_file, 'wb') as f:
+            pickle.dump(self.names_database, f)
+        
     def load_database(self):
         """Load registered face images"""
         db_file = os.path.join(self.database_dir, 'face_database.pkl')
@@ -141,9 +158,13 @@ class FaceVerifier:
         
         return max(0, min(100, final_similarity))
     
-    def register_face(self, frame, person_id):
+    def register_face(self, frame, person_id, person_name=None):
         """
         Register a new face
+        Args:
+            frame: Image frame containing face
+            person_id: Unique ID for the person
+            person_name: Optional display name for the person
         Returns: (success, message, bbox)
         """
         try:
@@ -163,12 +184,18 @@ class FaceVerifier:
             self.database[person_id] = features
             self.save_database()
             
+            # Save name if provided
+            if person_name:
+                self.names_database[person_id] = person_name
+                self.save_names_database()
+            
             # Also save the full frame for reference
             person_dir = os.path.join(self.database_dir, person_id)
             os.makedirs(person_dir, exist_ok=True)
             cv2.imwrite(os.path.join(person_dir, f"{person_id}.jpg"), frame)
             
-            return True, f"Face registered successfully for {person_id}", bbox
+            name_info = f" ({person_name})" if person_name else ""
+            return True, f"Face registered successfully for {person_id}{name_info}", bbox
             
         except Exception as e:
             return False, f"Registration failed: {str(e)}", None
