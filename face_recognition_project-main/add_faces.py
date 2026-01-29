@@ -17,7 +17,8 @@ while True:
     faces=facedetect.detectMultiScale(gray, 1.3 ,5)
     for (x,y,w,h) in faces:
         crop_img=frame[y:y+h, x:x+w, :]
-        resized_img=cv2.resize(crop_img, (50,50))
+        crop_img_gray=cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
+        resized_img=cv2.resize(crop_img_gray, (50,50))
         if len(faces_data)<=100 and i%10==0:
             faces_data.append(resized_img)
         i=i+1

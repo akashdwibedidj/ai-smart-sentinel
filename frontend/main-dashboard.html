@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="AI Smart Sentinel - High-Security Command Center Dashboard for CCTV Access Control with Deepfake Detection">
+    <title>Main Dashboard | AI Smart Sentinel</title>
+
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <!-- Dynamic Background Lights -->
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="floating-orb orb-3"></div>
+    <div class="light-flicker flicker-1"></div>
+    <div class="light-flicker flicker-2"></div>
+    <div class="light-flicker flicker-3"></div>
+
+
+    <!-- ==================== NAVIGATION BAR ==================== -->
+    <nav class="navbar">
+        <!-- Brand -->
+        <div class="navbar-brand">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2" fill="none" />
+                <circle cx="16" cy="16" r="6" fill="#00D4FF" />
+                <path d="M16 2 L16 8 M16 24 L16 30 M2 16 L8 16 M24 16 L30 16" stroke="#00D4FF" stroke-width="2" />
+            </svg>
+            <span>AI SMART SENTINEL</span>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="#" class="nav-link active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1" />
+                        <rect x="14" y="3" width="7" height="7" rx="1" />
+                        <rect x="3" y="14" width="7" height="7" rx="1" />
+                        <rect x="14" y="14" width="7" height="7" rx="1" />
+                    </svg>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="camera-view.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 7l-7 5 7 5V7z" />
+                        <rect x="1" y="5" width="15" height="14" rx="2" />
+                    </svg>
+                    Live Monitoring
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="analytics-dashboard.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 20V10M12 20V4M6 20v-6" />
+                    </svg>
+                    Analytics
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="settings.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+                    </svg>
+                    Settings
+                </a>
+            </li>
+        </ul>
+
+        <!-- User Profile -->
+        <div class="navbar-profile">
+            <a href="profile.html" class="profile-avatar">AD</a>
+            <svg class="profile-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6" />
+            </svg>
+        </div>
+    </nav>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="main-content">
+
+        <!-- Page Header -->
+        <header class="page-header mb-lg" style="animation: fadeIn 0.5s ease;">
+            <h1>Command Center</h1>
+            <p class="text-secondary">Real-time security monitoring and threat detection</p>
+        </header>
+
+        <!-- ==================== STATUS CARDS ==================== -->
+        <section class="status-cards">
+
+            <!-- Active Cameras -->
+            <div class="status-card">
+                <div class="status-card-icon cyan">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 7l-7 5 7 5V7z" />
+                        <rect x="1" y="5" width="15" height="14" rx="2" />
+                    </svg>
+                </div>
+                <div class="status-card-label">Active Cameras</div>
+                <div class="status-card-value" id="activeCameras">12</div>
+                <div class="status-indicator">All systems online</div>
+            </div>
+
+            <!-- Today's Access Attempts -->
+            <div class="status-card">
+                <div class="status-card-icon cyan">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </div>
+                <div class="status-card-label">Access Attempts Today</div>
+                <div class="status-card-value" id="accessAttempts">247</div>
+                <div class="status-indicator">+12% from yesterday</div>
+            </div>
+
+            <!-- Blocked Threats -->
+            <div class="status-card">
+                <div class="status-card-icon red">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                    </svg>
+                </div>
+                <div class="status-card-label">Blocked Threats</div>
+                <div class="status-card-value red" id="blockedThreats">8</div>
+                <div class="status-indicator" style="color: var(--accent-red);">3 deepfakes detected</div>
+            </div>
+
+            <!-- System Health -->
+            <div class="status-card">
+                <div class="status-card-icon green">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                    </svg>
+                </div>
+                <div class="status-card-label">System Health</div>
+                <div class="status-card-value green" id="systemHealth">98%</div>
+                <div class="status-indicator">Optimal performance</div>
+            </div>
+
+        </section>
+
+        <!-- ==================== CONTENT GRID ==================== -->
+        <div class="dashboard-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg);">
+
+            <!-- Recent Alerts Panel -->
+            <section class="panel alerts-panel"
+                style="animation: slideUp 0.6s ease forwards; opacity: 0; animation-delay: 0.5s;">
+                <div class="panel-header">
+                    <h3 class="panel-title">Recent Alerts</h3>
+                    <span class="text-muted" style="font-size: 0.8rem;">Last 5 events</span>
+                </div>
+
+                <div class="alerts-list" id="alertsList">
+
+                    <div class="alert-item alert-danger">
+                        <div class="alert-icon danger">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="15" y1="9" x2="9" y2="15" />
+                                <line x1="9" y1="9" x2="15" y2="15" />
+                            </svg>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Deepfake Attack Blocked - Camera 7</div>
+                            <div class="alert-time">2 minutes ago</div>
+                        </div>
+                    </div>
+
+                    <div class="alert-item alert-warning">
+                        <div class="alert-icon warning">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                                <line x1="12" y1="9" x2="12" y2="13" />
+                                <line x1="12" y1="17" x2="12.01" y2="17" />
+                            </svg>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Suspicious Activity - Entry Point B</div>
+                            <div class="alert-time">15 minutes ago</div>
+                        </div>
+                    </div>
+
+                    <div class="alert-item alert-safe">
+                        <div class="alert-icon safe">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                <polyline points="22 4 12 14.01 9 11.01" />
+                            </svg>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Access Granted - John Smith</div>
+                            <div class="alert-time">23 minutes ago</div>
+                        </div>
+                    </div>
+
+                    <div class="alert-item alert-danger">
+                        <div class="alert-icon danger">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                            </svg>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Injection Attack Detected - Camera 3</div>
+                            <div class="alert-time">45 minutes ago</div>
+                        </div>
+                    </div>
+
+                    <div class="alert-item alert-safe">
+                        <div class="alert-icon safe">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                <polyline points="22 4 12 14.01 9 11.01" />
+                            </svg>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Liveness Check Passed - Sarah Connor</div>
+                            <div class="alert-time">1 hour ago</div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Activity Timeline Panel -->
+            <section class="panel timeline-panel"
+                style="animation: slideUp 0.6s ease forwards; opacity: 0; animation-delay: 0.6s;">
+                <div class="panel-header">
+                    <h3 class="panel-title">Activity Timeline</h3>
+                    <span class="text-muted" style="font-size: 0.8rem;">Last 24 hours</span>
+                </div>
+
+                <div class="timeline-graph" id="timelineGraph">
+                    <!-- Scanning line animation -->
+                    <div class="scan-line"></div>
+
+                    <!-- Graph will be rendered by JS -->
+                    <canvas id="activityCanvas" style="width: 100%; height: 100%;"></canvas>
+                </div>
+
+                <div class="flex justify-between mt-md text-muted" style="font-size: 0.75rem;">
+                    <span>00:00</span>
+                    <span>06:00</span>
+                    <span>12:00</span>
+                    <span>18:00</span>
+                    <span>Now</span>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ==================== QUICK ACTIONS ==================== -->
+        <section class="quick-actions mt-lg"
+            style="animation: slideUp 0.6s ease forwards; opacity: 0; animation-delay: 0.7s;">
+            <div class="btn-group">
+                <a href="camera-view.html" class="btn btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
+                    Start Live Monitoring
+                </a>
+                <a href="analytics-dashboard.html" class="btn btn-secondary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                    View Full Reports
+                </a>
+                <button class="btn btn-danger" id="emergencyLockdown">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    Emergency Lockdown
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Dashboard JavaScript -->
+    <script src="js/main-dashboard.js"></script>
+
+</body>
+
+</html>

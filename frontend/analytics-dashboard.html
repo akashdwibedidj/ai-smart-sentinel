@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Smart Sentinel - Analytics & Reports Dashboard">
+    <title>Analytics & Reports | AI Smart Sentinel</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/analytics.css">
+
+    <!-- Chart.js for graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Dynamic Background Lights -->
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="floating-orb orb-3"></div>
+    <div class="light-flicker flicker-1"></div>
+    <div class="light-flicker flicker-2"></div>
+    <div class="light-flicker flicker-3"></div>
+
+
+    <!-- ==================== NAVIGATION BAR ==================== -->
+    <nav class="navbar">
+        <!-- Brand -->
+        <div class="navbar-brand">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2" fill="none" />
+                <circle cx="16" cy="16" r="6" fill="#00D4FF" />
+                <path d="M16 2 L16 8 M16 24 L16 30 M2 16 L8 16 M24 16 L30 16" stroke="#00D4FF" stroke-width="2" />
+            </svg>
+            <span>AI SMART SENTINEL</span>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="main-dashboard.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1" />
+                        <rect x="14" y="3" width="7" height="7" rx="1" />
+                        <rect x="3" y="14" width="7" height="7" rx="1" />
+                        <rect x="14" y="14" width="7" height="7" rx="1" />
+                    </svg>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="camera-view.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 7l-7 5 7 5V7z" />
+                        <rect x="1" y="5" width="15" height="14" rx="2" />
+                    </svg>
+                    Live Monitoring
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="analytics-dashboard.html" class="nav-link active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 20V10M12 20V4M6 20v-6" />
+                    </svg>
+                    Analytics
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="settings.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+                    </svg>
+                    Settings
+                </a>
+            </li>
+        </ul>
+
+        <!-- User Profile -->
+        <div class="navbar-profile">
+            <a href="profile.html" class="profile-avatar">JD</a>
+            <svg class="profile-dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6" />
+            </svg>
+        </div>
+    </nav>
+
+    <!-- ==================== FILTER CONTROLS ==================== -->
+    <header class="filter-bar">
+        <div class="filter-group">
+            <div class="input-wrapper date-picker">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                <input type="text" placeholder="Jan 1, 2026 - Jan 28, 2026" readonly>
+            </div>
+
+            <div class="input-wrapper select-dropdown">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 21h18M5 21V7l8-4 8 4v14M8 21v-4h8v4" />
+                </svg>
+                <select>
+                    <option value="all">All Locations</option>
+                    <option value="entrance">Main Entrance</option>
+                    <option value="lobby">Lobby Area</option>
+                    <option value="server">Server Room</option>
+                </select>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="filter-group center">
+            <div class="toggle-group">
+                <button class="toggle-btn active">All Events</button>
+                <button class="toggle-btn success">Success</button>
+                <button class="toggle-btn threat">Threats</button>
+            </div>
+        </div>
+
+        <div class="filter-group right">
+            <div class="input-wrapper search-bar">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input type="text" placeholder="Search logs...">
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN DASHBOARD ==================== -->
+    <main class="analytics-main">
+
+        <!-- Statistics Grid -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Total Access Attempts</span>
+                    <span class="trend positive">↑ 12%</span>
+                </div>
+                <div class="stat-value">1,248</div>
+                <div class="stat-subtitle">Last 30 days</div>
+            </div>
+
+            <div class="stat-card success-card">
+                <div class="stat-header">
+                    <span class="stat-title">Successful Verifications</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </div>
+                <div class="stat-value text-success">1,185</div>
+                <div class="stat-subtitle">95.2% Success Rate</div>
+            </div>
+
+            <div class="stat-card threat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Threats Blocked</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="15" y1="9" x2="9" y2="15" />
+                        <line x1="9" y1="9" x2="15" y2="15" />
+                    </svg>
+                </div>
+                <div class="stat-value text-danger">42</div>
+                <div class="stat-subtitle">Stopped automatically</div>
+            </div>
+
+            <div class="stat-card warning-card">
+                <div class="stat-header">
+                    <span class="stat-title">Suspicious Activities</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                        <line x1="12" y1="9" x2="12" y2="13" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                </div>
+                <div class="stat-value text-warning">21</div>
+                <div class="stat-subtitle">Requires review</div>
+            </div>
+        </section>
+
+        <!-- Charts Grid -->
+        <section class="charts-grid">
+            <div class="chart-card large">
+                <div class="chart-header">
+                    <h3>Activity Overview</h3>
+                    <div class="chart-toggles">
+                        <button class="chart-toggle">24H</button>
+                        <button class="chart-toggle active">7D</button>
+                        <button class="chart-toggle">30D</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Threat Breakdown</h3>
+                </div>
+                <div class="chart-container pie-container">
+                    <canvas id="threatPieChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Threats by Location</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="locationBarChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Events Table -->
+        <section class="table-card">
+            <div class="table-header">
+                <h3>Recent Events</h3>
+                <button class="btn-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Event Type</th>
+                            <th>Person</th>
+                            <th>Location</th>
+                            <th>Threat Score</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Row 1: Threat -->
+                        <tr class="row-threat">
+                            <td>Jan 28, 14:38:47</td>
+                            <td><span class="badge threat">Threat Detected</span></td>
+                            <td>Unknown</td>
+                            <td>Main Entrance</td>
+                            <td class="text-danger">94.5%</td>
+                            <td><button class="btn-sm btn-outline">View Details</button></td>
+                        </tr>
+                        <!-- Row 2: Success -->
+                        <tr>
+                            <td>Jan 28, 14:35:22</td>
+                            <td><span class="badge success">Verified</span></td>
+                            <td>John Doe</td>
+                            <td>Server Room</td>
+                            <td class="text-success">0.2%</td>
+                            <td><button class="btn-sm btn-outline">View Details</button></td>
+                        </tr>
+                        <!-- Row 3: Suspicious -->
+                        <tr class="row-warning">
+                            <td>Jan 28, 14:12:05</td>
+                            <td><span class="badge warning">Suspicious</span></td>
+                            <td>Jane Smith</td>
+                            <td>Lobby Area</td>
+                            <td class="text-warning">45.0%</td>
+                            <td><button class="btn-sm btn-outline">View Details</button></td>
+                        </tr>
+                        <!-- Row 4: Success -->
+                        <tr>
+                            <td>Jan 28, 13:50:18</td>
+                            <td><span class="badge success">Verified</span></td>
+                            <td>Mike Ross</td>
+                            <td>Main Entrance</td>
+                            <td class="text-success">0.5%</td>
+                            <td><button class="btn-sm btn-outline">View Details</button></td>
+                        </tr>
+                        <!-- Row 5: Success -->
+                        <tr>
+                            <td>Jan 28, 13:45:30</td>
+                            <td><span class="badge success">Verified</span></td>
+                            <td>Sarah Connor</td>
+                            <td>Lab Access</td>
+                            <td class="text-success">1.0%</td>
+                            <td><button class="btn-sm btn-outline">View Details</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <span class="page-info">Showing 1-5 of 1,248</span>
+                <div class="page-controls">
+                    <button class="page-btn" disabled>←</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <span class="page-dots">...</span>
+                    <button class="page-btn">25</button>
+                    <button class="page-btn">→</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== ACTION FOOTER ==================== -->
+    <footer class="action-footer">
+        <div class="footer-left">
+            <span class="system-status">System Operational • Logging Active</span>
+        </div>
+        <div class="footer-actions">
+            <button class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                    <polyline points="10 9 9 9 8 9" />
+                </svg>
+                Export PDF
+            </button>
+            <button class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="12" y1="18" x2="12" y2="12" />
+                    <line x1="9" y1="15" x2="15" y2="15" />
+                </svg>
+                Export CSV
+            </button>
+            <button class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                </svg>
+                Email Report
+            </button>
+            <button class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                </svg>
+                Schedule Auto-Report
+            </button>
+        </div>
+    </footer>
+
+    <!-- Analytics JavaScript -->
+    <script src="js/analytics.js"></script>
+
+</body>
+
+</html>

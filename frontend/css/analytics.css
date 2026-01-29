@@ -1,0 +1,509 @@
+/* ============================================
+   AI SMART SENTINEL - ANALYTICS DASHBOARD
+   Data visualization and reporting styles
+   ============================================ */
+
+/* ==================== LAYOUT ==================== */
+.analytics-main {
+    padding: 0 32px 100px;
+    max-width: 1600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+/* ==================== FILTER BAR ==================== */
+.filter-bar {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    height: 64px;
+    margin: 100px auto 16px;
+    background: rgba(40, 45, 55, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.filter-group.center {
+    flex: 1;
+    justify-content: center;
+}
+
+.filter-group.right {
+    justify-content: flex-end;
+}
+
+/* Input Fields */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    padding: 0 16px;
+    height: 40px;
+    transition: var(--transition-smooth);
+}
+
+.input-wrapper:hover,
+.input-wrapper:focus-within {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.input-wrapper svg {
+    color: var(--text-secondary);
+    margin-right: 10px;
+}
+
+.input-wrapper input {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    width: 180px;
+    outline: none;
+}
+
+/* Select Dropdown */
+.select-dropdown select {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    width: 140px;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+}
+
+.select-dropdown .chevron {
+    margin-right: 0;
+    margin-left: 10px;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+}
+
+/* Filter Toggles */
+.toggle-group {
+    display: flex;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 50px;
+    padding: 4px;
+}
+
+.toggle-btn {
+    padding: 6px 20px;
+    background: transparent;
+    border: none;
+    border-radius: 50px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.toggle-btn.active {
+    background: white;
+    color: black;
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-btn.success.active {
+    background: var(--accent-green);
+    color: black;
+}
+
+.toggle-btn.threat.active {
+    background: var(--accent-red);
+    color: white;
+}
+
+/* ==================== STAT CARDS ==================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.stat-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    padding: 24px;
+    transition: var(--transition-smooth);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Card Variations */
+.success-card {
+    background: linear-gradient(135deg, rgba(0, 230, 118, 0.05) 0%, var(--bg-panel) 100%);
+    border-left: 4px solid var(--accent-green);
+}
+
+.threat-card {
+    background: linear-gradient(135deg, rgba(255, 82, 82, 0.05) 0%, var(--bg-panel) 100%);
+    border-left: 4px solid var(--accent-red);
+}
+
+.warning-card {
+    background: linear-gradient(135deg, rgba(255, 179, 0, 0.05) 0%, var(--bg-panel) 100%);
+    border-left: 4px solid var(--accent-amber);
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.stat-title {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.trend {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 50px;
+    background: rgba(0, 230, 118, 0.1);
+    color: var(--accent-green);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.stat-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* ==================== CHARTS GRID ==================== */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 20px;
+    height: 340px;
+    margin-bottom: 24px;
+}
+
+.chart-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-subtle);
+    border-radius: 24px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.chart-header h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.chart-toggles {
+    display: flex;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 2px;
+    border-radius: 8px;
+}
+
+.chart-toggle {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.chart-toggle.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.chart-container {
+    flex: 1;
+    position: relative;
+    width: 100%;
+}
+
+.pie-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ==================== DATA TABLE ==================== */
+.table-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-subtle);
+    border-radius: 24px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.table-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+th {
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+td {
+    padding: 16px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    transition: background 0.2s;
+}
+
+tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--text-primary);
+}
+
+/* Row Highlights */
+.row-threat td {
+    background: rgba(255, 82, 82, 0.03);
+}
+
+.row-warning td {
+    background: rgba(255, 179, 0, 0.03);
+}
+
+/* Badges */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge.success {
+    background: rgba(0, 230, 118, 0.1);
+    color: var(--accent-green);
+}
+
+.badge.threat {
+    background: rgba(255, 82, 82, 0.1);
+    color: var(--accent-red);
+}
+
+.badge.warning {
+    background: rgba(255, 179, 0, 0.1);
+    color: var(--accent-amber);
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.page-info {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.page-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.page-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.page-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+.page-btn.active {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+}
+
+.page-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* ==================== ACTION FOOTER ==================== */
+.action-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(180deg, transparent 0%, #0B0F14 20%);
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 800;
+}
+
+.system-status {
+    font-size: 0.8rem;
+    color: var(--accent-green);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.system-status::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-green);
+}
+
+.footer-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 1280px) {
+    .charts-grid {
+        grid-template-columns: 1fr 1fr;
+        height: auto;
+    }
+
+    .chart-card.large {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filter-bar {
+        width: calc(100% - 32px);
+        height: auto;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 16px;
+        border-radius: 24px;
+    }
+
+    .filter-group {
+        flex: 1;
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-footer {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .footer-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Smart Sentinel - Verification Successful">
+    <title>Verification Success | AI Smart Sentinel</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/verification-result.css">
+</head>
+
+<body class="success-theme">
+
+    <!-- ==================== SUCCESS HEADER ==================== -->
+    <header class="result-header success">
+        <div class="header-badge success">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+            VERIFIED
+        </div>
+        <div class="header-timestamp" id="timestamp">Jan 28, 2026 – 14:35:22</div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="result-main">
+
+        <!-- ==================== SUCCESS DISPLAY ==================== -->
+        <section class="result-center">
+
+            <!-- Success Icon -->
+            <div class="result-icon success">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="check-icon">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+                <div class="icon-glow"></div>
+            </div>
+
+            <h1 class="result-title success">Verification Successful</h1>
+            <p class="result-subtitle">Identity confirmed. Access authorized.</p>
+
+            <!-- Identified Person Card -->
+            <div class="info-card">
+                <div class="card-header">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <h3>Identified Person</h3>
+                </div>
+                <div class="info-grid">
+                    <div class="info-row">
+                        <span class="info-label">Name</span>
+                        <span class="info-value">John Doe</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Employee ID</span>
+                        <span class="info-value">EMP-2024-1234</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Department</span>
+                        <span class="info-value">Engineering</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Access Level</span>
+                        <span class="info-value highlight">Level 3 – Authorized</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Last Access</span>
+                        <span class="info-value muted">Yesterday, 9:15 AM</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verification Scores -->
+            <div class="info-card">
+                <div class="card-header">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 20V10M12 20V4M6 20v-6" />
+                    </svg>
+                    <h3>Verification Scores</h3>
+                </div>
+                <div class="scores-grid">
+                    <div class="score-item">
+                        <span class="score-label">Feed Integrity</span>
+                        <span class="score-value success">99.8%</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-label">Liveness Detection</span>
+                        <span class="score-value success">98.5%</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-label">Deepfake Probability</span>
+                        <span class="score-value success">0.8%</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-label">Face Match</span>
+                        <span class="score-value success">97.2%</span>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== VISUAL CONFIRMATION SIDEBAR ==================== -->
+        <aside class="result-sidebar">
+
+            <div class="sidebar-section">
+                <div class="section-title">Profile Photo</div>
+                <div class="photo-frame database">
+                    <div class="photo-placeholder">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                    </div>
+                    <span class="photo-label">Database</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title">Captured Frame</div>
+                <div class="photo-frame captured">
+                    <div class="photo-placeholder">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <path
+                                d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                            <circle cx="12" cy="13" r="4" />
+                        </svg>
+                    </div>
+                    <span class="photo-label">Live Capture</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="section-title">Face Match</div>
+                <div class="comparison-view">
+                    <div class="match-indicator success">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        97.2% Match
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <!-- ==================== ACTION BUTTONS ==================== -->
+    <footer class="result-actions">
+        <button class="btn btn-success" id="grantAccessBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+            Grant Access
+        </button>
+        <button class="btn btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
+            View Full Report
+        </button>
+        <button class="btn btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                <polyline points="17 21 17 13 7 13 7 21" />
+                <polyline points="7 3 7 8 15 8" />
+            </svg>
+            Save to Log
+        </button>
+        <button class="btn btn-secondary" onclick="window.location.href='camera-view.html'">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Return to Monitoring
+        </button>
+    </footer>
+
+    <script>
+        // Set current timestamp
+        document.getElementById('timestamp').textContent = new Date().toLocaleString('en-US', {
+            year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+
+        // Grant Access button
+        document.getElementById('grantAccessBtn').addEventListener('click', function () {
+            this.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Access Granted
+      `;
+            this.disabled = true;
+            this.classList.add('granted');
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1279 @@
+/* ========================================
+   ELITE CYBER-SECURITY DESIGN SYSTEM
+   TRUSTLENS AI - Production Specification
+   ======================================== */
+
+:root {
+    /* Obsidian Neon Palette (High-End Cyber) */
+    --deep-space: #030408;
+    --cyber-black: #000000;
+    --neon-blue: #0066FF;
+    --neon-blue-glow: rgba(0, 102, 255, 0.6);
+    --cyber-purple: #BC00FF;
+    --cyber-purple-glow: rgba(188, 0, 255, 0.4);
+    --soft-white: #ECF0F1;
+    --text-muted: #94A3B8;
+
+    /* UI Tokens - Obsidian Spec */
+    --glass-bg: rgba(10, 15, 25, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-main: #FFFFFF;
+    --text-dim: #94A3B8;
+    --radius-xl: 40px;
+    --radius-lg: 20px;
+    --radius-sm: 10px;
+    --shadow-neon: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+
+/* ========================================
+   GLOBAL STYLES
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background: radial-gradient(circle at center, #0a111a 0%, #030408 100%);
+    color: var(--text-main);
+    overflow-x: hidden;
+    min-height: 100vh;
+    width: 100vw;
+}
+
+h1,
+h2,
+.portal-title,
+.digital-clock,
+.btn-text {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ========================================
+   ADVANCED INTERACTION ELEMENTS
+   ======================================== */
+
+.mouse-glow {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--neon-blue-glow) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+    opacity: 0;
+    will-change: transform;
+}
+
+body:hover .mouse-glow {
+    opacity: 1;
+}
+
+/* Glass Pro Specification (Dark) */
+.glass-pro {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(40px) saturate(200%) !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow:
+        0 40px 100px rgba(0, 0, 0, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+}
+
+.glass-pro::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), transparent);
+    pointer-events: none;
+}
+
+#bg-particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(circle at center, #0a111a 0%, #030408 100%);
+}
+
+.security-overlays {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.scan-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(34, 197, 94, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34, 197, 94, 0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(circle at center, black, transparent 95%);
+}
+
+.scan-line {
+    position: absolute;
+    top: -10vh;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.2), transparent);
+    opacity: 0.5;
+    animation: scanVertical 12s infinite linear;
+}
+
+@keyframes scanVertical {
+    0% {
+        top: -10vh;
+    }
+
+    100% {
+        top: 110vh;
+    }
+}
+
+.ai-pulse-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    height: 1000px;
+    border: 1px solid rgba(34, 197, 94, 0.05);
+    border-radius: 50%;
+    animation: pulseRing 15s infinite ease-in-out;
+}
+
+@keyframes pulseRing {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.08;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0;
+    }
+}
+
+/* ========================================
+   CYBER HEADER (Sketch Refinement)
+   ======================================== */
+
+/* ========================================
+   AETHER HEADER (Light Refinement)
+   ======================================== */
+
+.cyber-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 30px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.company-logo img {
+    height: 40px;
+    filter: drop-shadow(0 0 15px var(--neon-blue-glow));
+    transition: 0.5s;
+}
+
+.company-logo img:hover {
+    transform: scale(1.05);
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--neon-blue);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--neon-blue-glow);
+    animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.3);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.status-text {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+}
+
+.status-val {
+    color: var(--neon-blue);
+}
+
+.header-right {
+    text-align: right;
+}
+
+.digital-clock {
+    font-size: 28px;
+    font-weight: 950;
+    color: var(--neon-blue);
+    text-shadow: 0 0 15px var(--neon-blue-glow);
+    margin-bottom: 2px;
+}
+
+.digital-date {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ========================================
+   SPLASH SCREEN (Nature Transition)
+   ======================================== */
+
+.splash-screen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+.splash-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.05);
+}
+
+#matrixCanvas {
+    position: absolute;
+    inset: 0;
+    opacity: 0.6;
+}
+
+.splash-content {
+    position: relative;
+    z-index: 100;
+    text-align: center;
+}
+
+.splash-logo {
+    height: 120px;
+    margin-bottom: 40px;
+    animation: logoBreathe 4s infinite ease-in-out;
+}
+
+@keyframes logoBreathe {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 20px var(--neon-blue-glow));
+    }
+
+    50% {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 40px var(--cyber-purple-glow));
+    }
+}
+
+.splash-title {
+    color: #FFF;
+    font-size: 42px;
+    font-weight: 950;
+    letter-spacing: 12px;
+    margin-bottom: 15px;
+}
+
+.splash-tagline {
+    color: var(--neon-blue);
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+/* ========================================
+   ENTRY PORTAL
+   ======================================== */
+
+.entry-portal {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    padding: 100px 0;
+}
+
+.product-branding {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.portal-title {
+    font-size: 56px;
+    font-weight: 950;
+    background: linear-gradient(180deg, #FFF 20%, var(--neon-blue) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 10px;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 0 15px var(--neon-blue-glow));
+}
+
+.portal-tagline {
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.8;
+}
+
+/* ========================================
+   FLOATING LOGIN CARD (Elite Glassmorphism)
+   ======================================== */
+
+.login-card-container {
+    perspective: 2000px;
+}
+
+.login-card {
+    width: 500px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: 60px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 40px 100px rgba(0, 0, 0, 0.6),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.float-gravity {
+    animation: floatAnim 10s infinite ease-in-out;
+}
+
+@keyframes floatAnim {
+
+    0%,
+    100% {
+        transform: translateY(0) rotateX(1deg);
+    }
+
+    50% {
+        transform: translateY(-30px) rotateX(-1deg);
+    }
+}
+
+.holographic-reflection {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.05) 45%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0.05) 55%,
+            transparent 100%);
+    background-size: 400% 400%;
+    animation: holoMove 15s infinite ease-out;
+    pointer-events: none;
+    z-index: 10;
+}
+
+@keyframes holoMove {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+.card-header {
+    margin-bottom: 40px;
+    border-left: 4px solid var(--neon-blue);
+    padding-left: 20px;
+}
+
+.card-header h2 {
+    font-size: 24px;
+    color: #FFF;
+    font-weight: 900;
+}
+
+.card-header p {
+    font-size: 10px;
+    color: var(--neon-blue);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 5px;
+}
+
+/* ========================================
+   INPUT BOXES & FIELDS (Aether Style)
+   ======================================== */
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cyber-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 18px 25px;
+    color: #FFF;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.4s;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.cyber-input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+    font-weight: 500;
+}
+
+.cyber-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 20px var(--neon-blue-glow);
+}
+
+.password-toggle {
+    position: absolute;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.focus-glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: calc(var(--radius-lg) + 2px);
+    background: linear-gradient(90deg, var(--neon-blue), var(--cyber-purple));
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.4s;
+}
+
+.cyber-input:focus~.focus-glow {
+    opacity: 0.4;
+}
+
+/* ========================================
+   FORM OPTIONS (Checkbox & Link)
+   ======================================== */
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    user-select: none;
+}
+
+.checkbox-container input {
+    display: none;
+}
+
+.checkmark {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    margin-right: 10px;
+    position: relative;
+    transition: all 0.3s;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.checkbox-container input:checked~.checkmark {
+    background: var(--neon-blue);
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 15px var(--neon-blue-glow);
+}
+
+.checkmark::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 900;
+    display: none;
+}
+
+.checkbox-container input:checked~.checkmark::after {
+    display: block;
+}
+
+.forgot-link {
+    font-size: 12px;
+    color: var(--neon-blue);
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.forgot-link:hover {
+    color: var(--cyber-purple);
+}
+
+/* ========================================
+   ACTION BUTTONS (Aether Edition)
+   ======================================== */
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 18px;
+    background: var(--neon-blue);
+    border: none;
+    border-radius: var(--radius-lg);
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+    box-shadow: 0 0 20px var(--neon-blue-glow);
+    z-index: 1;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 0 40px var(--neon-blue-glow);
+}
+
+.neon-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.btn-primary:hover .neon-glow {
+    transform: translateX(100%);
+}
+
+.btn-secondary {
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    color: var(--text-dim);
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-secondary:hover {
+    border-color: var(--neon-blue);
+    color: #FFF;
+    background: rgba(0, 102, 255, 0.05);
+}
+
+/* ========================================
+   BOTTOM METADATA
+   ======================================== */
+
+.card-footer-info {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.version-tag {
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    opacity: 0.6;
+}
+
+.divider {
+    margin: 0 10px;
+    color: rgba(255, 255, 255, 0.1);
+}
+
+.footer-link {
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.footer-link:hover {
+    color: var(--neon-blue);
+}
+
+/* ========================================
+   ERROR STATE SCREEN (Verification Failed)
+   ======================================== */
+
+/* ========================================
+   ERROR STATE SCREEN (Aether Style)
+   ======================================== */
+
+.error-screen {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 4, 8, 0.98);
+    backdrop-filter: blur(20px);
+    z-index: 10001;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: errorEnter 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes errorEnter {
+    from {
+        opacity: 0;
+        transform: scale(1.05);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.error-content {
+    text-align: center;
+    max-width: 500px;
+}
+
+.error-icon-container {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 30px;
+    color: #FF3333;
+}
+
+.error-svg {
+    width: 100%;
+    height: 100%;
+    animation: errorIconPulse 2s infinite;
+}
+
+@keyframes errorIconPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+.error-title {
+    color: #FFF;
+    font-size: 32px;
+    font-weight: 950;
+    margin-bottom: 15px;
+}
+
+.error-subtitle {
+    color: var(--text-dim);
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+.warning-glow-soft {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 51, 51, 0.1) 0%, transparent 70%);
+    z-index: -1;
+}
+
+.error-retry {
+    background: #FF3333 !important;
+    width: 250px !important;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(255, 51, 51, 0.4) !important;
+}
+
+.error-retry:hover {
+    box-shadow: 0 0 40px rgba(255, 51, 51, 0.6) !important;
+}
+
+/* Shake Animation for Input Failure */
+.shake-anim {
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+/* ========================================
+   ELITE ANTIGRAVITY FOOTER
+   ======================================== */
+
+/* ========================================
+   PREMIUM BIOLUMINESCENT NATURE FOOTER (Light)
+   ======================================== */
+
+.cyber-footer.elite-theme {
+    position: relative;
+    width: 100%;
+    padding: 100px 8%;
+    background: linear-gradient(180deg,
+            rgba(3, 4, 8, 0) 0%,
+            rgba(3, 4, 8, 0.9) 20%,
+            rgba(0, 0, 0, 1) 100%);
+    backdrop-filter: blur(30px);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 100;
+    overflow: hidden;
+    color: #FFF;
+}
+
+.footer-nature-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(0, 102, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(188, 0, 255, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* --- Hero Section --- */
+.footer-hero-section {
+    text-align: center;
+    margin-bottom: 80px;
+    position: relative;
+}
+
+.hero-title {
+    font-size: 52px;
+    font-weight: 950;
+    color: #FFF;
+    letter-spacing: 12px;
+}
+
+.hero-mission {
+    font-size: 18px;
+    color: var(--text-muted);
+    margin-top: 15px;
+    letter-spacing: 2px;
+}
+
+.hero-mission span {
+    color: var(--neon-blue);
+    font-weight: 800;
+}
+
+.hero-description {
+    max-width: 700px;
+    margin: 20px auto 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+.bioluminescent-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0, 255, 204, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: bioPulse 8s infinite ease-in-out;
+    z-index: -1;
+}
+
+/* --- Bioluminescent Vines --- */
+.biometric-vines {
+    position: absolute;
+    top: 150px;
+    left: 8%;
+    width: 84%;
+    height: 300px;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0.15;
+}
+
+.footer-decoration {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.leaf-skeleton {
+    position: absolute;
+    right: -100px;
+    top: -100px;
+    width: 600px;
+    height: 600px;
+    transform: rotate(15deg);
+    filter: blur(1px);
+}
+
+.vine-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: flowVine 10s infinite linear;
+}
+
+.vine-path-alt {
+    stroke-dasharray: 800;
+    stroke-dashoffset: 800;
+    animation: flowVine 15s infinite linear reverse;
+}
+
+@keyframes flowVine {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* --- Pipeline Dashboard (Enhanced) --- */
+.pipeline-dashboard {
+    margin-bottom: 80px;
+    position: relative;
+}
+
+.section-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 900;
+    color: var(--neon-blue);
+    letter-spacing: 4px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.pipeline-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.pipeline-step {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 35px 25px;
+    text-align: center;
+    transition: all 0.5s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.pipeline-step:hover {
+    transform: translateY(-15px);
+    border-color: var(--neon-blue);
+    box-shadow: 0 20px 40px var(--neon-blue-glow);
+}
+
+.step-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neon-blue);
+    border: 1px solid rgba(0, 102, 255, 0.1);
+    border-radius: 18px;
+    background: rgba(0, 102, 255, 0.05);
+}
+
+.step-icon.highlight {
+    background: var(--neon-blue);
+    color: #FFF;
+    box-shadow: 0 10px 20px var(--neon-blue-glow);
+}
+
+.pipeline-step h4 {
+    font-size: 12px;
+    font-weight: 900;
+    color: #FFF;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.pipeline-step p {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.pipeline-arrow {
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--neon-blue), transparent);
+    opacity: 0.3;
+}
+
+/* --- Tech Panels --- */
+.tech-stack-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.tech-panel {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 30px;
+}
+
+.tech-panel h5 {
+    font-size: 11px;
+    font-weight: 950;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+}
+
+.differentiator-list {
+    list-style: none;
+}
+
+.differentiator-list li {
+    font-size: 13px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-main);
+}
+
+.bullet {
+    width: 6px;
+    height: 6px;
+    background: var(--neon-blue);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--neon-blue-glow);
+}
+
+.stack-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.badge {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.badge:hover {
+    background: var(--neon-blue);
+    border-color: var(--neon-blue);
+    transform: translateY(-3px);
+}
+
+/* --- Footer Bottom --- */
+.footer-bottom-info {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+/* --- Animations --- */
+@keyframes bioPulse {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 0.6;
+    }
+}
+
+@keyframes shineText {
+    0% {
+        background-position: -200% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* Radar Scanning Effect */
+.radar-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(0, 102, 255, 0.1);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.radar-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 1px;
+    background: var(--neon-blue);
+    transform-origin: left;
+    animation: radarSpin 4s infinite linear;
+    box-shadow: 0 0 10px var(--neon-blue-glow);
+}
+
+@keyframes radarSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- Animations & Effects --- */
+.parallax-card {
+    transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+}
+
+.float-1 {
+    animation: organicFloat 6s infinite ease-in-out;
+}
+
+.float-2 {
+    animation: organicFloat 8s infinite ease-in-out;
+    animation-delay: 1s;
+}
+
+.float-3 {
+    animation: organicFloat 10s infinite ease-in-out;
+    animation-delay: 2s;
+}
+
+@keyframes organicFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .pipeline-grid {
+        flex-direction: column;
+    }
+
+    .pipeline-arrow {
+        transform: rotate(90deg);
+        margin: 10px 0;
+    }
+
+    .tech-stack-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ========================================
+   RESPONSIVE OPTIMIZATION
+   ======================================== */
+
+@media (max-width: 768px) {
+    .cyber-header {
+        padding: 30px;
+    }
+
+    .header-left .system-status {
+        display: none;
+    }
+
+    .digital-clock {
+        font-size: 24px;
+    }
+
+    .portal-title {
+        font-size: 40px;
+    }
+
+    .login-card {
+        width: 90vw;
+        padding: 40px 30px;
+    }
+
+    .cyber-footer {
+        display: block;
+        padding: 60px 5%;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .footer-bottom-bar {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+}

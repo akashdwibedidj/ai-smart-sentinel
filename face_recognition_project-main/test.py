@@ -27,7 +27,7 @@ print('Shape of Faces matrix --> ', FACES.shape)
 knn=KNeighborsClassifier(n_neighbors=5)
 knn.fit(FACES, LABELS)
 
-imgBackground=cv2.imread("background.png")
+
 
 COL_NAMES = ['NAME', 'TIME']
 
@@ -37,7 +37,8 @@ while True:
     faces=facedetect.detectMultiScale(gray, 1.3 ,5)
     for (x,y,w,h) in faces:
         crop_img=frame[y:y+h, x:x+w, :]
-        resized_img=cv2.resize(crop_img, (50,50)).flatten().reshape(1,-1)
+        crop_img_gray=cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
+        resized_img=cv2.resize(crop_img_gray, (50,50)).flatten().reshape(1,-1)
         output=knn.predict(resized_img)
         ts=time.time()
         date=datetime.fromtimestamp(ts).strftime("%d-%m-%Y")
@@ -49,8 +50,7 @@ while True:
         cv2.putText(frame, str(output[0]), (x,y-15), cv2.FONT_HERSHEY_COMPLEX, 1, (255,255,255), 1)
         cv2.rectangle(frame, (x,y), (x+w, y+h), (50,50,255), 1)
         attendance=[str(output[0]), str(timestamp)]
-    imgBackground[162:162 + 480, 55:55 + 640] = frame
-    cv2.imshow("Frame",imgBackground)
+    cv2.imshow("Frame",frame)
     k=cv2.waitKey(1)
     if k==ord('o'):
         speak("Attendance Taken..")

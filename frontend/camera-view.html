@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Smart Sentinel - Live Monitoring & Camera View with Real-time AI Analysis">
+    <title>Live Monitoring | AI Smart Sentinel</title>
+
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/camera-view.css">
+</head>
+
+<body>
+
+    <!-- Dynamic Background Lights -->
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="floating-orb orb-3"></div>
+    <div class="light-flicker flicker-1"></div>
+    <div class="light-flicker flicker-2"></div>
+    <div class="light-flicker flicker-3"></div>
+
+
+    <!-- ==================== NAVIGATION BAR ==================== -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2" fill="none" />
+                <circle cx="16" cy="16" r="6" fill="#00D4FF" />
+                <path d="M16 2 L16 8 M16 24 L16 30 M2 16 L8 16 M24 16 L30 16" stroke="#00D4FF" stroke-width="2" />
+            </svg>
+            <span>AI SMART SENTINEL</span>
+        </div>
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="main-dashboard.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1" />
+                        <rect x="14" y="3" width="7" height="7" rx="1" />
+                        <rect x="3" y="14" width="7" height="7" rx="1" />
+                        <rect x="14" y="14" width="7" height="7" rx="1" />
+                    </svg>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="camera-view.html" class="nav-link active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 7l-7 5 7 5V7z" />
+                        <rect x="1" y="5" width="15" height="14" rx="2" />
+                    </svg>
+                    Live Monitoring
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="analytics-dashboard.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 20V10M12 20V4M6 20v-6" />
+                    </svg>
+                    Analytics
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="settings.html" class="nav-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" />
+                    </svg>
+                    Settings
+                </a>
+            </li>
+        </ul>
+
+        <div class="navbar-profile">
+            <a href="profile.html" class="profile-avatar">JD</a>
+        </div>
+    </nav>
+
+    <!-- ==================== CAMERA INFO BAR ==================== -->
+    <header class="camera-header">
+        <a href="main-dashboard.html" class="header-back-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            <span>Dashboard</span>
+        </a>
+
+        <div class="header-center">
+            <div class="camera-info">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M23 7l-7 5 7 5V7z" />
+                    <rect x="1" y="5" width="15" height="14" rx="2" />
+                </svg>
+                <span class="camera-name">CAM-07 | Main Entrance</span>
+            </div>
+            <div class="live-badge">
+                <span class="live-dot"></span>
+                LIVE
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="timestamp" id="liveTimestamp">00:00:00</div>
+            <div class="connection-status">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+                    <path d="M1.42 9a16 16 0 0 1 21.16 0" />
+                    <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+                    <circle cx="12" cy="20" r="1" />
+                </svg>
+                <span>Strong</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="camera-main">
+
+        <!-- Video Feed Container -->
+        <section class="video-container">
+            <div class="video-feed" id="videoFeed">
+                <!-- Placeholder for actual video stream -->
+                <div class="video-placeholder">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5">
+                        <path d="M23 7l-7 5 7 5V7z" />
+                        <rect x="1" y="5" width="15" height="14" rx="2" />
+                    </svg>
+                    <p>Connecting to camera feed...</p>
+                </div>
+
+                <!-- AI Scanning Overlay -->
+                <div class="scan-overlay">
+                    <div class="scan-line-horizontal"></div>
+                    <div class="scan-grid"></div>
+                </div>
+
+                <!-- Face Detection Boxes (will be injected by JS) -->
+                <div class="detection-overlay" id="detectionOverlay"></div>
+
+                <!-- AI Active Indicator -->
+                <div class="ai-indicator">
+                    <div class="ai-pulse"></div>
+                    <span>AI ACTIVE</span>
+                </div>
+
+                <!-- Video Quality Badge -->
+                <div class="quality-badge">1080p</div>
+            </div>
+
+            <!-- Video Controls -->
+            <div class="video-controls">
+                <button class="control-btn" title="Zoom Out">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="M21 21l-4.35-4.35M8 11h6" />
+                    </svg>
+                </button>
+                <button class="control-btn" title="Zoom In">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="M21 21l-4.35-4.35M11 8v6M8 11h6" />
+                    </svg>
+                </button>
+                <button class="control-btn" title="Fullscreen">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+                    </svg>
+                </button>
+                <button class="control-btn record-btn" id="recordBtn" title="Record">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <circle cx="12" cy="12" r="4" fill="currentColor" />
+                    </svg>
+                </button>
+                <button class="control-btn" title="Screenshot">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                        <circle cx="12" cy="13" r="4" />
+                    </svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== AI ANALYSIS SIDEBAR ==================== -->
+        <aside class="ai-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">
+                    <div class="title-pulse"></div>
+                    REAL-TIME AI ACTIVE
+                </div>
+            </div>
+
+            <!-- Action Buttons (TOP) -->
+            <div class="sidebar-actions">
+                <button class="btn btn-primary" id="startVerification">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3" />
+                    </svg>
+                    Start Verification
+                </button>
+                <button class="btn btn-danger" id="reportThreat">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                        <line x1="12" y1="9" x2="12" y2="13" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                    Report Threat
+                </button>
+            </div>
+
+            <!-- Feed Integrity Section -->
+            <div class="analysis-section">
+                <div class="section-header">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                    <h3>Feed Integrity Status</h3>
+                </div>
+
+                <div class="metric-list">
+                    <div class="metric-item safe">
+                        <div class="metric-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                <polyline points="22 4 12 14.01 9 11.01" />
+                            </svg>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Injection Attack Score</span>
+                            <span class="metric-value safe" id="injectionScore">0.02</span>
+                        </div>
+                        <span class="metric-badge safe">SAFE</span>
+                    </div>
+
+                    <div class="metric-item safe">
+                        <div class="metric-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                <polyline points="22 4 12 14.01 9 11.01" />
+                            </svg>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Camera Tampering</span>
+                            <span class="metric-value safe">Not Detected</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-item safe">
+                        <div class="metric-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                <polyline points="22 4 12 14.01 9 11.01" />
+                            </svg>
+                        </div>
+                        <div class="metric-content">
+                            <span class="metric-label">Feed Authenticity</span>
+                            <span class="metric-value">
+                                <span class="value-highlight" id="authenticityValue">98.5</span>%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Face Verification Section -->
+            <div class="analysis-section">
+                <div class="section-header">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <h3>Face Verification Status</h3>
+                </div>
+
+                <div class="metric-list">
+                    <div class="metric-item">
+                        <span class="metric-label">Liveness Detection</span>
+                        <span class="metric-status active">Active</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Deepfake Probability</span>
+                        <span class="metric-value safe" id="deepfakeProb">1.2%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">3D Depth Analysis</span>
+                        <span class="metric-status normal">Normal</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Micro-expression</span>
+                        <span class="metric-status normal">Consistent</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confidence Meter -->
+            <div class="analysis-section">
+                <div class="section-header">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 20V10M12 20V4M6 20v-6" />
+                    </svg>
+                    <h3>Confidence Level</h3>
+                </div>
+
+                <div class="confidence-meter">
+                    <div class="meter-bar">
+                        <div class="meter-fill" id="confidenceFill" style="width: 94%;"></div>
+                    </div>
+                    <div class="meter-labels">
+                        <span>0%</span>
+                        <span class="meter-value" id="confidenceValue">94%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detected Persons -->
+            <div class="analysis-section">
+                <div class="section-header">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                    <h3>Detected Persons</h3>
+                </div>
+
+                <div class="persons-list" id="personsList">
+                    <div class="person-item verified">
+                        <div class="person-avatar">P1</div>
+                        <div class="person-info">
+                            <span class="person-id">Person #1</span>
+                            <span class="person-status verified">Verified - John Doe</span>
+                        </div>
+                    </div>
+                    <div class="person-item pending">
+                        <div class="person-avatar">P2</div>
+                        <div class="person-info">
+                            <span class="person-id">Person #2</span>
+                            <span class="person-status pending">Analyzing...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </aside>
+
+    </main>
+
+    <!-- Camera View JavaScript -->
+    <script src="js/camera-view.js"></script>
+
+</body>
+
+</html>

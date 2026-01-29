@@ -1,0 +1,583 @@
+/* ============================================
+   AI SMART SENTINEL - INCIDENT DETAIL MODAL
+   Glassmorphism overlay with detailed analysis
+   ============================================ */
+
+/* ==================== BACKGROUND ==================== */
+.background-dashboard {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-primary);
+    z-index: 0;
+}
+
+.blur-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+}
+
+/* ==================== MODAL OVERLAY ==================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==================== MODAL CONTAINER ==================== */
+.incident-modal {
+    width: 100%;
+    max-width: 1100px;
+    max-height: 90vh;
+    background: rgba(25, 30, 40, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 28px;
+    box-shadow:
+        0 0 60px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.95) translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active .incident-modal {
+    transform: scale(1) translateY(0);
+}
+
+/* ==================== MODAL HEADER ==================== */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.incident-id {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.incident-id svg {
+    color: var(--accent-cyan);
+}
+
+.close-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.close-btn:hover {
+    background: rgba(255, 82, 82, 0.1);
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+    box-shadow: 0 0 20px rgba(255, 82, 82, 0.2);
+}
+
+/* ==================== MODAL BODY ==================== */
+.modal-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    padding: 28px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* ==================== THREAT BADGE ==================== */
+.threat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: rgba(255, 82, 82, 0.1);
+    border: 1px solid rgba(255, 82, 82, 0.3);
+    border-radius: 50px;
+    color: var(--accent-red);
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+}
+
+/* ==================== META GRID ==================== */
+.meta-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.meta-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.meta-value {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    padding-left: 20px;
+}
+
+/* ==================== SECTION TITLES ==================== */
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 16px;
+}
+
+.section-title svg {
+    opacity: 0.7;
+}
+
+/* ==================== ANALYSIS SCORES ==================== */
+.analysis-section {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    margin-bottom: 24px;
+}
+
+.score-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.score-item {
+    display: grid;
+    grid-template-columns: 140px 1fr 50px;
+    align-items: center;
+    gap: 12px;
+}
+
+.score-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.score-bar {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.score-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.score-fill.safe {
+    background: var(--accent-green);
+}
+
+.score-fill.warning {
+    background: var(--accent-amber);
+}
+
+.score-fill.danger {
+    background: var(--accent-red);
+}
+
+.score-value {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: right;
+}
+
+.score-value.safe {
+    color: var(--accent-green);
+}
+
+.score-value.warning {
+    color: var(--accent-amber);
+}
+
+.score-value.danger {
+    color: var(--accent-red);
+}
+
+.score-value.muted {
+    color: var(--text-muted);
+}
+
+/* ==================== OPERATOR SECTION ==================== */
+.operator-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.notes-input {
+    width: 100%;
+    min-height: 80px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    resize: vertical;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.notes-input:focus {
+    border-color: var(--accent-cyan);
+    background: rgba(0, 212, 255, 0.03);
+}
+
+.autosave-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.autosave-hint::before {
+    content: '•';
+    color: var(--accent-green);
+}
+
+.resolution-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.resolution-row label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.form-select {
+    flex: 1;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    outline: none;
+}
+
+/* ==================== EVIDENCE COLUMN ==================== */
+.evidence-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.evidence-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.evidence-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.evidence-frame {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+.evidence-frame:hover {
+    border-color: var(--accent-cyan);
+    transform: scale(1.02);
+}
+
+.evidence-frame.anomaly {
+    border-color: rgba(255, 82, 82, 0.4);
+    background: rgba(255, 82, 82, 0.05);
+}
+
+.frame-label {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    color: var(--text-secondary);
+}
+
+.frame-placeholder {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-family: monospace;
+}
+
+.evidence-tag {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.evidence-tag.danger {
+    color: var(--accent-red);
+}
+
+/* ==================== HEATMAP ==================== */
+.heatmap-section {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.heatmap-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.heatmap-header h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.toggle-small {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.toggle-small input {
+    display: none;
+}
+
+.toggle-switch-small {
+    width: 36px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    position: relative;
+    transition: var(--transition-smooth);
+}
+
+.toggle-switch-small::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    transition: var(--transition-smooth);
+}
+
+.toggle-small input:checked+.toggle-switch-small {
+    background: var(--accent-cyan);
+}
+
+.toggle-small input:checked+.toggle-switch-small::after {
+    left: 19px;
+}
+
+.heatmap-preview {
+    aspect-ratio: 16 / 9;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.heatmap-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heatmap-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.heat-spot {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 82, 82, 0.6), transparent);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.modal-overlay.active .heat-spot {
+    opacity: 1;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.spot-1 {
+    width: 80px;
+    height: 80px;
+    top: 30%;
+    left: 40%;
+}
+
+.spot-2 {
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    left: 55%;
+    animation-delay: 0.5s;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+/* ==================== MODAL FOOTER ==================== */
+.modal-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px 28px;
+    border-top: 1px solid var(--border-subtle);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.btn-warning {
+    background: rgba(255, 179, 0, 0.15);
+    border: 1px solid var(--accent-amber);
+    color: var(--accent-amber);
+}
+
+.btn-warning:hover {
+    background: var(--accent-amber);
+    color: black;
+}
+
+.btn-outline-danger {
+    background: transparent;
+    border: 1px solid var(--accent-red);
+    color: var(--accent-red);
+}
+
+.btn-outline-danger:hover {
+    background: var(--accent-red);
+    color: white;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 900px) {
+    .modal-body {
+        grid-template-columns: 1fr;
+    }
+
+    .incident-modal {
+        max-height: 95vh;
+    }
+
+    .modal-footer {
+        gap: 8px;
+    }
+
+    .modal-footer .btn {
+        font-size: 0.8rem;
+        padding: 10px 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .modal-overlay {
+        padding: 16px;
+    }
+
+    .incident-modal {
+        border-radius: 20px;
+    }
+
+    .score-item {
+        grid-template-columns: 1fr 1fr 40px;
+    }
+
+    .score-label {
+        font-size: 0.75rem;
+    }
+}

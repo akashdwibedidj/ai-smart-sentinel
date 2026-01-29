@@ -1,74 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Smart Sentinel - Security System</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>TRUSTLENS AI - Cyber Security Login Portal</title>
+    <meta name="description"
+        content="AI-powered identity verification system with anti-injection and liveness detection.">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>🛡️ AI Smart Sentinel</h1>
-            <p class="subtitle">Advanced Face Recognition & Injection Detection System</p>
-        </header>
 
-        <div class="main-content">
-            <!-- Camera Feed Section -->
-            <div class="camera-section">
-                <div class="video-container">
-                    <video id="videoElement" autoplay playsinline></video>
-                    <canvas id="canvas" style="display: none;"></canvas>
-                </div>
-                
-                <div class="controls">
-                    <button id="startCamera" class="btn btn-primary">📷 Start Camera</button>
-                    <button id="stopCamera" class="btn btn-secondary" disabled>⏹️ Stop Camera</button>
-                </div>
+<body class="cyber-theme">
+    <!-- Background Interactive Particles -->
+    <canvas id="bg-particles"></canvas>
+    <!-- Mouse Interaction Elements -->
+    <div id="mouse-glow" class="mouse-glow"></div>
+
+    <!-- Security Visual Overlays -->
+    <div class="security-overlays">
+        <div class="scan-grid"></div>
+        <div class="scan-line"></div>
+        <div class="ai-pulse-ring"></div>
+        <div class="nature-leaf-top">
+            <svg viewBox="0 0 100 100" class="leaf-svg">
+                <path d="M50 0 C70 30 70 70 50 100 C30 70 30 30 50 0" fill="rgba(34, 197, 94, 0.05)"></path>
+            </svg>
+        </div>
+        <div class="nature-leaf-bottom">
+            <svg viewBox="0 0 100 100" class="leaf-svg">
+                <path d="M50 0 C70 30 70 70 50 100 C30 70 30 30 50 0" fill="rgba(34, 197, 94, 0.05)"></path>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Header Components (Sketch Layout) -->
+    <header class="cyber-header">
+        <div class="header-left">
+            <div class="company-logo">
+                <img src="trustlens_ai_logo.png" alt="TRUSTLENS AI">
+            </div>
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <span class="status-text">SYSTEM STATUS: <span class="status-val">ONLINE</span></span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="digital-display">
+                <div id="digitalclock" class="digital-clock">00:00:00</div>
+                <div id="digitaldate" class="digital-date">WEDNESDAY, JAN 29, 2026</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Splash Screen (Matrix Engine) -->
+    <div class="splash-screen" id="splashScreen">
+        <canvas id="matrixCanvas"></canvas>
+        <div class="splash-content">
+            <div class="splash-circles">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+            </div>
+            <img src="trustlens_ai_logo.png" alt="TRUSTLENS AI" class="splash-logo">
+            <h1 class="splash-title">SYSTEM SECURE</h1>
+            <p class="splash-tagline">Initializing Biometric Protocol...</p>
+        </div>
+    </div>
+
+    <!-- Main Entry Portal -->
+    <main id="app" class="entry-portal">
+        <div class="login-wrapper">
+            <!-- Product Title & Tagline -->
+            <div class="product-branding">
+                <h1 class="portal-title">TRUSTLENS AI</h1>
+                <p class="portal-tagline">Verify the Source. Verify the Identity.</p>
             </div>
 
-            <!-- Actions Section -->
-            <div class="actions-section">
-                <div class="action-card">
-                    <h3>Register New Face</h3>
-                    <input type="text" id="personId" placeholder="Enter Person ID" class="input-field">
-                    <button id="registerBtn" class="btn btn-success">✓ Register Face</button>
+            <!-- Anti-Gravity Floating Login Card (Sketch Components) -->
+            <div class="login-card-container">
+                <div class="login-card float-gravity" id="loginCard">
+                    <div class="holographic-reflection"></div>
+
+                    <div class="card-inner">
+                        <div class="card-header">
+                            <h2>Authorized Access Only</h2>
+                            <p>ENTERPRISE SECURITY GATEWAY</p>
+                        </div>
+
+                        <div class="login-form">
+                            <!-- Username Field -->
+                            <div class="input-group">
+                                <label class="input-label">Username or Email</label>
+                                <div class="input-wrapper">
+                                    <input type="text" id="username" placeholder="Username / Email" class="cyber-input"
+                                        spellcheck="false" required>
+                                    <span class="focus-glow"></span>
+                                </div>
+                            </div>
+
+                            <!-- Password Field with Toggle -->
+                            <div class="input-group">
+                                <label class="input-label">Access Credential</label>
+                                <div class="input-wrapper">
+                                    <input type="password" id="password" placeholder="Password" class="cyber-input"
+                                        required>
+                                    <button type="button" class="password-toggle" id="togglePassword">
+                                        <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                    </button>
+                                    <span class="focus-glow"></span>
+                                </div>
+                            </div>
+
+                            <!-- Options (Sketch: Remember Me + Forgot Password) -->
+                            <div class="form-options">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" id="rememberMe">
+                                    <span class="checkmark"></span>
+                                    <span class="checkbox-label">Remember my session</span>
+                                </label>
+                                <a href="#" class="forgot-link">Forgot Password?</a>
+                            </div>
+
+                            <!-- Buttons (Sketch: Login + Register) -->
+                            <div class="button-group">
+                                <button id="loginBtn" class="btn-primary">
+                                    <span class="btn-text">LOGIN</span>
+                                    <div class="neon-glow"></div>
+                                    <div class="energy-pulse-container"></div>
+                                </button>
+
+                                <button id="registerBtn" class="btn-secondary">
+                                    <span class="btn-text">REGISTER NEW USER</span>
+                                    <div class="subtle-glow"></div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="action-card">
-                    <h3>Verify Access</h3>
-                    <button id="verifyBtn" class="btn btn-primary">🔍 Verify Face</button>
-                </div>
-
-                <div class="action-card">
-                    <h3>Registered Faces</h3>
-                    <button id="listFacesBtn" class="btn btn-info">📋 View List</button>
-                    <div id="facesList" class="faces-list"></div>
-                </div>
-            </div>
-
-            <!-- Status Section -->
-            <div class="status-section">
-                <h3>System Status</h3>
-                <div id="statusDisplay" class="status-display">
-                    <p>🟢 System Ready</p>
-                </div>
-            </div>
-
-            <!-- Results Section -->
-            <div class="results-section">
-                <h3>Verification Results</h3>
-                <div id="resultsDisplay" class="results-display">
-                    <p class="placeholder">Results will appear here...</p>
+                <!-- Card Bottom Links (Sketch: Version + Privacy) -->
+                <div class="card-footer-info">
+                    <span class="version-tag">VERSION ST-V2.5.0-PRO</span>
+                    <span class="divider">|</span>
+                    <a href="#" class="footer-link">PRIVACY POLICY</a>
                 </div>
             </div>
         </div>
 
-        <footer>
-            <p>AI Smart Sentinel © 2026 | Advanced Security System</p>
-        </footer>
-    </div>
+        <!-- Error State Screen (Hand-Drawn Request: Verification Failed) -->
+        <div id="errorOverlay" class="error-screen hidden">
+            <div class="error-content">
+                <div class="error-icon-container">
+                    <svg class="error-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+                <h2 class="error-title">Login Error — Verification Failed</h2>
+                <p class="error-subtitle">Atmospheric interference or unauthorized credentials detected.</p>
+                <div class="warning-glow-soft"></div>
+                <button id="retryBtn" class="btn-primary error-retry">
+                    <span>Try Again</span>
+                    <div class="neon-glow"></div>
+                </button>
+            </div>
+        </div>
+    </main>
 
-    <script src="app.js"></script>
+    <!-- Professional Integrated Antigravity Footer -->
+    <!-- Premium Bioluminescent Anti-Gravity Footer -->
+    <footer class="cyber-footer elite-theme">
+        <!-- Interactive Leaf Skeleton Decoration -->
+        <div class="footer-decoration">
+            <svg class="leaf-skeleton" viewBox="0 0 100 100">
+                <path d="M50 10 L50 90 M50 30 L30 50 M50 50 L70 30 M50 60 L35 75 M50 75 L65 60" fill="none"
+                    stroke="var(--neon-blue)" stroke-width="0.5" opacity="0.1" />
+            </svg>
+        </div>
+
+        <div class="footer-nature-overlay"></div>
+
+        <div class="footer-main-content">
+            <!-- Part 1: Problem Statement & Mission -->
+            <div class="footer-hero-section">
+                <div class="hero-text">
+                    <h2 class="hero-title">AI SMART SENTINEL</h2>
+                    <p class="hero-mission">Solving <span>"Identity Spoofing & Fake Credentials in Gated
+                            Communities"</span></p>
+                    <p class="hero-description">A privacy-aware, offline-first defense system against impersonation and
+                        deepfake access attempts.</p>
+                </div>
+                <div class="bioluminescent-pulse"></div>
+            </div>
+
+            <!-- Part 2: The Logic Pipeline (Explainability Panel) -->
+            <div class="pipeline-dashboard">
+                <h3 class="section-label">SYSTEM ARCHITECTURE PIPELINE</h3>
+                <!-- Bioluminescent Biometric Vines (SVG) -->
+                <svg class="biometric-vines" viewBox="0 0 1200 200">
+                    <path d="M 0 100 Q 300 50 600 100 T 1200 100" fill="none" stroke="var(--neon-blue)" stroke-width="2"
+                        class="vine-path" />
+                    <path d="M 0 150 Q 300 200 600 150 T 1200 150" fill="none" stroke="var(--neon-blue-glow)"
+                        stroke-width="1" class="vine-path-alt" />
+                </svg>
+
+                <div class="pipeline-grid">
+                    <!-- Step 1 -->
+                    <div class="pipeline-step float-1 parallax-card glass-pro">
+                        <div class="radar-container">
+                            <div class="radar-line"></div>
+                        </div>
+                        <div class="step-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path
+                                    d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                                </path>
+                                <circle cx="12" cy="13" r="4"></circle>
+                            </svg>
+                        </div>
+                        <h4>01. INPUT</h4>
+                        <p>Webcam / CCTV Offline Feed</p>
+                    </div>
+                    <div class="pipeline-arrow"></div>
+                    <div class="pipeline-step float-2 parallax-card glass-pro">
+                        <div class="radar-container">
+                            <div class="radar-line"></div>
+                        </div>
+                        <div class="step-icon highlight">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                <path d="M12 8v4l3 3"></path>
+                            </svg>
+                        </div>
+                        <h4>02. TRUST</h4>
+                        <p>Injection Attack Detection</p>
+                    </div>
+                    <div class="pipeline-arrow"></div>
+                    <div class="pipeline-step float-3 parallax-card glass-pro">
+                        <div class="radar-container">
+                            <div class="radar-line"></div>
+                        </div>
+                        <div class="step-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                        </div>
+                        <h4>03. LIVENESS</h4>
+                        <p>Passive Micro-pattern Analysis</p>
+                    </div>
+                    <div class="pipeline-arrow"></div>
+                    <div class="pipeline-step float-1 parallax-card glass-pro">
+                        <div class="radar-container">
+                            <div class="radar-line"></div>
+                        </div>
+                        <div class="step-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                        </div>
+                        <h4>04. VERIFY</h4>
+                        <p>Face-to-ID Matching Logic</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 3: Technical Specs & Stack -->
+            <div class="tech-stack-row">
+                <div class="tech-panel float-2">
+                    <h5>CORE DIFFERENTIATORS</h5>
+                    <ul class="differentiator-list">
+                        <li><span class="bullet"></span> Detects OBS/ManyCam Virtual Injections</li>
+                        <li><span class="bullet"></span> Passive Liveness (No Blinking Required)</li>
+                        <li><span class="bullet"></span> Data Privacy: No Stored PII</li>
+                    </ul>
+                </div>
+                <div class="tech-panel float-3">
+                    <h5>ENGINEERING STACK</h5>
+                    <div class="stack-badges">
+                        <span class="badge">PYTHON / FASTAPI</span>
+                        <span class="badge">OPENCV</span>
+                        <span class="badge">DEEPFACE</span>
+                        <span class="badge">CNN MODELS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom-info">
+            <p class="copyright">HACKATHON PROTOTYPE © 2026. BUILT WITH BIOMETRIC PRECISION.</p>
+            <div class="nature-leaf-animation"></div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
 </body>
+
 </html>
