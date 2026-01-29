@@ -162,47 +162,117 @@ function initEmergencyLockdown() {
     });
 }
 
-// ==================== REAL-TIME UPDATES (SIMULATED) ====================
-function simulateRealTimeUpdates() {
-    // Simulate random alert appearing
-    setInterval(() => {
-        const alertTypes = [
-            { type: 'safe', title: 'Access Granted', icon: 'check' },
-            { type: 'warning', title: 'Suspicious Movement Detected', icon: 'warning' },
-            { type: 'danger', title: 'Spoof Attempt Blocked', icon: 'x' }
-        ];
+// ==================== FETCH REAL STATISTICS ====================
+async function fetchDashboardData() {
+    // Check if ApiService is available
+    if (typeof ApiService === 'undefined') {
+        console.warn('ApiService not loaded, using simulated data');
+        return;
+    }
 
-        // 30% chance of new alert
-        if (Math.random() > 0.7) {
-            const randomAlert = alertTypes[Math.floor(Math.random() * alertTypes.length)];
-            console.log(`New alert: ${randomAlert.title}`);
+    try {
+        // Fetch statistics from backend
+        const stats = await ApiService.getStatistics();
 
-            // Update blocked threats counter occasionally
-            if (randomAlert.type === 'danger') {
-                const threatCounter = document.getElementById('blockedThreats');
-                if (threatCounter) {
-                    const currentValue = parseInt(threatCounter.textContent);
-                    threatCounter.textContent = currentValue + 1;
-                    threatCounter.style.animation = 'none';
-                    setTimeout(() => {
-                        threatCounter.style.animation = 'pulse 0.5s ease';
-                    }, 10);
-                }
+        // Update status cards with real data
+        const elementsMap = {
+            'accessAttempts': stats.total_attempts || 0,
+            'blockedThreats': stats.blocked_threats || stats.denied || 0
+        };
+
+        Object.entries(elementsMap).forEach(([id, value]) => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.textContent = value;
+                // Animate the update
+                el.style.animation = 'none';
+                setTimeout(() => el.style.animation = 'pulse 0.5s ease', 10);
             }
+        });
+
+        console.log('📊 Dashboard stats updated from backend');
+    } catch (error) {
+        console.error('Failed to fetch dashboard data:', error);
+    }
+}
+
+// ==================== FETCH RECENT ALERTS ====================
+async function fetchRecentAlerts() {
+    if (typeof ApiService === 'undefined') return;
+
+    try {
+        const result = await ApiService.getLogs(5);
+        const alertsList = document.getElementById('alertsList');
+
+        if (alertsList && result.logs && result.logs.length > 0) {
+            alertsList.innerHTML = '';
+
+            result.logs.forEach(log => {
+                const alertItem = document.createElement('div');
+                alertItem.className = `alert-item ${log.access_granted ? 'success' : 'danger'}`;
+
+                const time = new Date(log.timestamp).toLocaleTimeString();
+                const icon = log.access_granted ? '✓' : '✕';
+                const title = log.access_granted ? 'Access Granted' : log.denial_reason || 'Access Denied';
+
+                alertItem.innerHTML = `
+                    <span class="alert-icon">${icon}</span>
+                    <div class="alert-content">
+                        <span class="alert-title">${title}</span>
+                        <span class="alert-time">${time}</span>
+                    </div>
+                `;
+                alertsList.appendChild(alertItem);
+            });
+
+            console.log('🔔 Alerts updated from backend');
         }
-    }, 30000); // Every 30 seconds
+    } catch (error) {
+        console.error('Failed to fetch alerts:', error);
+    }
+}
+
+// ==================== CHECK CONNECTION STATUS ====================
+async function checkBackendConnection() {
+    if (typeof ConnectionStatus === 'undefined') return;
+
+    const isOnline = await ConnectionStatus.check();
+    ConnectionStatus.updateUI();
+
+    console.log(`🔌 Backend status: ${isOnline ? 'Online' : 'Offline'}`);
+    return isOnline;
+}
+
+// ==================== REAL-TIME UPDATES ====================
+function startRealTimeUpdates() {
+    // Initial fetch
+    fetchDashboardData();
+    fetchRecentAlerts();
+
+    // Refresh every 30 seconds
+    setInterval(() => {
+        fetchDashboardData();
+        fetchRecentAlerts();
+    }, 30000);
 }
 
 // ==================== INITIALIZE ====================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // Initialize activity graph
     new ActivityGraph('activityCanvas');
 
     // Initialize emergency lockdown
     initEmergencyLockdown();
 
-    // Start simulated updates
-    simulateRealTimeUpdates();
+    // Check backend connection
+    const isOnline = await checkBackendConnection();
+
+    if (isOnline) {
+        // Start real-time updates with backend data
+        startRealTimeUpdates();
+    } else {
+        console.warn('⚠️ Backend offline - using static data');
+    }
 
     // Add loading complete class
     document.body.classList.add('loaded');
@@ -220,5 +290,10 @@ style.textContent = `
   .spin {
     animation: spin 1s linear infinite;
   }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
 `;
 document.head.appendChild(style);
+

@@ -230,6 +230,74 @@ class KNNFaceVerifier:
             return list(set(self.names))
         return []
     
+    def register_face(self, frame, person_id, num_augmentations=10):
+        """
+        Register a face from a single frame (for API use)
+        
+        Args:
+            frame: BGR image
+            person_id: Person's name
+            num_augmentations: Number of augmented samples to create
+            
+        Returns:
+            (success, message)
+        """
+        try:
+            # Detect face in frame
+            faces = self.detect_faces(frame)
+            if len(faces) == 0:
+                return False, "No face detected in image"
+            
+            # Get the largest face
+            face_bbox = max(faces, key=lambda f: f[2] * f[3])
+            face_bbox = tuple(face_bbox)
+            
+            # Extract features
+            features = self.extract_face_features(frame, face_bbox)
+            if features is None:
+                return False, "Could not extract face features"
+            
+            # Create augmented samples by slightly varying the face crop
+            x, y, w, h = face_bbox
+            faces_data = [features]
+            
+            for i in range(num_augmentations - 1):
+                # Slight random variations
+                dx = np.random.randint(-5, 6)
+                dy = np.random.randint(-5, 6)
+                
+                new_x = max(0, x + dx)
+                new_y = max(0, y + dy)
+                
+                aug_features = self.extract_face_features(frame, (new_x, new_y, w, h))
+                if aug_features is not None:
+                    faces_data.append(aug_features)
+            
+            # Convert to numpy array
+            new_faces = np.array(faces_data)
+            new_names = [person_id] * len(faces_data)
+            
+            # Add to existing data
+            if self.faces_data is not None:
+                self.faces_data = np.append(self.faces_data, new_faces, axis=0)
+                self.names = self.names + new_names
+            else:
+                self.faces_data = new_faces
+                self.names = new_names
+            
+            # Save and retrain
+            self._save_data()
+            
+            # Retrain KNN
+            self.knn = KNeighborsClassifier(n_neighbors=5)
+            self.knn.fit(self.faces_data, self.names)
+            self.model_loaded = True
+            
+            return True, f"Successfully registered {person_id} with {len(faces_data)} samples"
+            
+        except Exception as e:
+            return False, f"Registration error: {str(e)}"
+    
     def register_face_interactive(self, name, num_samples=100, camera_index=0):
         """
         Interactive face registration (similar to add_faces.py)

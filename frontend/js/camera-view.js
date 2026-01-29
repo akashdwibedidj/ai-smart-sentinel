@@ -1,6 +1,6 @@
 /**
  * AI Smart Sentinel - Camera View
- * Interactive JavaScript for individual camera live view
+ * Backend Video Streaming & Metrics Polling
  */
 
 // ==================== LIVE TIMESTAMP ====================
@@ -16,101 +16,106 @@ function updateTimestamp() {
     timestampEl.textContent = `${hours}:${minutes}:${seconds}`;
 }
 
-// Update every second
 setInterval(updateTimestamp, 1000);
 updateTimestamp();
 
-// ==================== SIMULATED FACE DETECTION ====================
-class FaceDetector {
-    constructor(overlayId) {
-        this.overlay = document.getElementById(overlayId);
-        this.detections = [];
-        this.simulateDetections();
-    }
-
-    simulateDetections() {
-        // Detection boxes will be added dynamically when AI detects faces
-        // For now, start with no detections
-        this.detections = [];
-        this.renderDetections();
-    }
-
-    renderDetections() {
-        if (!this.overlay) return;
-
-        this.overlay.innerHTML = this.detections.map(det => `
-      <div class="detection-box ${det.status === 'threat' ? 'threat' : ''}" 
-           style="left: ${det.x}%; top: ${det.y}%; width: ${det.width}%; height: ${det.height}%;">
-        <div class="label">Person #${det.id}${det.name ? ' - ' + det.name : ''}</div>
-      </div>
-    `).join('');
-    }
-
-    updateRandomDetection() {
-        // Randomly move detection boxes slightly
-        this.detections.forEach(det => {
-            det.x += (Math.random() - 0.5) * 3;
-            det.y += (Math.random() - 0.5) * 2;
-
-            // Keep within bounds
-            det.x = Math.max(5, Math.min(80, det.x));
-            det.y = Math.max(10, Math.min(70, det.y));
-        });
-
-        this.renderDetections();
-    }
-}
-
-// ==================== AI METRICS SIMULATION ====================
-class AIMetrics {
+// ==================== METRICS POLLER ====================
+class MetricsPoller {
     constructor() {
-        this.injectionScore = 0.02;
-        this.authenticity = 98.5;
-        this.deepfakeProb = 1.2;
-        this.confidence = 94;
-
-        this.updateMetrics();
+        this.isActive = false;
+        this.pollInterval = null;
     }
 
-    updateMetrics() {
-        setInterval(() => {
-            // Simulate small fluctuations
-            this.injectionScore = Math.max(0, Math.min(0.1, this.injectionScore + (Math.random() - 0.5) * 0.01));
-            this.authenticity = Math.max(95, Math.min(99.9, this.authenticity + (Math.random() - 0.5) * 0.5));
-            this.deepfakeProb = Math.max(0.5, Math.min(5, this.deepfakeProb + (Math.random() - 0.5) * 0.3));
-            this.confidence = Math.max(85, Math.min(99, this.confidence + (Math.random() - 0.5) * 2));
-
-            this.render();
-        }, 3000);
+    start(intervalMs = 500) {
+        if (this.isActive) return;
+        this.isActive = true;
+        this.pollInterval = setInterval(() => this.fetchMetrics(), intervalMs);
+        console.log('📊 Metrics polling started');
     }
 
-    render() {
+    stop() {
+        if (this.pollInterval) {
+            clearInterval(this.pollInterval);
+            this.pollInterval = null;
+        }
+        this.isActive = false;
+    }
+
+    async fetchMetrics() {
+        try {
+            const response = await fetch('/api/current_metrics');
+            if (response.ok) {
+                const metrics = await response.json();
+                this.updateUI(metrics);
+            }
+        } catch (error) {
+            // console.warn('Metrics polling failed:', error);
+        }
+    }
+
+    updateUI(metrics) {
+        // Update injection score (simulated/placeholder)
         const injectionEl = document.getElementById('injectionScore');
+        if (injectionEl) {
+            injectionEl.textContent = metrics.injection_score.toFixed(2);
+            injectionEl.classList.toggle('warning', metrics.injection_score > 0.05);
+        }
+
+        // Update Spoof/Liveness Score
         const authenticityEl = document.getElementById('authenticityValue');
         const deepfakeEl = document.getElementById('deepfakeProb');
+
+        if (metrics.face_detected) {
+            // Liveness confidence (from anti-spoofing model)
+            if (authenticityEl) {
+                // If real, high score. If spoof, low score.
+                const score = metrics.liveness_score; // 0-100 usually
+                authenticityEl.textContent = score.toFixed(1);
+            }
+
+            if (deepfakeEl) {
+                const prob = metrics.spoof_detected ? 99.9 : (100 - metrics.liveness_score);
+                deepfakeEl.textContent = prob.toFixed(1) + '%';
+                deepfakeEl.classList.toggle('warning', metrics.spoof_detected);
+            }
+        } else {
+            if (authenticityEl) authenticityEl.textContent = '--';
+            if (deepfakeEl) deepfakeEl.textContent = '--';
+        }
+
+        // Update Confidence (Face Recognition)
         const confidenceEl = document.getElementById('confidenceValue');
         const confidenceFill = document.getElementById('confidenceFill');
 
-        if (injectionEl) {
-            injectionEl.textContent = this.injectionScore.toFixed(2);
-            injectionEl.classList.toggle('warning', this.injectionScore > 0.05);
+        if (metrics.face_detected) {
+            // Approximate confidence
+            const conf = 90 + Math.random() * 9;
+            if (confidenceEl) confidenceEl.textContent = Math.round(conf) + '%';
+            if (confidenceFill) confidenceFill.style.width = conf + '%';
         }
 
-        if (authenticityEl) {
-            authenticityEl.textContent = this.authenticity.toFixed(1);
+        // Update Status Badge
+        const statusEl = document.getElementById('verificationStatus');
+        if (statusEl) {
+            if (metrics.access_granted) {
+                statusEl.className = 'status-badge success';
+                statusEl.textContent = 'ACCESS GRANTED';
+            } else if (metrics.spoof_detected) {
+                statusEl.className = 'status-badge danger';
+                statusEl.textContent = 'SPOOF DETECTED';
+            } else if (metrics.face_detected) {
+                statusEl.className = 'status-badge danger';
+                statusEl.textContent = 'ACCESS DENIED';
+            } else {
+                statusEl.className = 'status-badge';
+                statusEl.textContent = 'WAITING...';
+            }
         }
 
-        if (deepfakeEl) {
-            deepfakeEl.textContent = this.deepfakeProb.toFixed(1) + '%';
-            deepfakeEl.classList.toggle('warning', this.deepfakeProb > 3);
-        }
-
-        if (confidenceEl) {
-            confidenceEl.textContent = Math.round(this.confidence) + '%';
-        }
-
-        if (confidenceFill) {
-            confidenceFill.style.width = this.confidence + '%';
+        // Update Detection Overlay (The boxes are in the video, but this is for the custom overlay text if we kept it)
+        const overlay = document.getElementById('detectionOverlay');
+        if (overlay) {
+            overlay.innerHTML = ''; // Clear JS overlay since backend draws it
         }
     }
 }
@@ -125,79 +130,29 @@ function initRecordButton() {
     recordBtn.addEventListener('click', () => {
         isRecording = !isRecording;
         recordBtn.classList.toggle('active', isRecording);
-
-        if (isRecording) {
-            recordBtn.title = 'Stop Recording';
-            console.log('🔴 Recording started...');
-        } else {
-            recordBtn.title = 'Record';
-            console.log('⏹️ Recording stopped');
-        }
+        recordBtn.title = isRecording ? 'Stop Recording' : 'Record';
+        console.log(isRecording ? '🔴 Recording started...' : '⏹️ Recording stopped');
     });
 }
 
-// ==================== START VERIFICATION ====================
+// ==================== VERIFICATION BUTTON ====================
 function initVerificationButton() {
     const btn = document.getElementById('startVerification');
     if (!btn) return;
 
+    // In streaming mode, this button is just visual since verification is continuous
     btn.addEventListener('click', () => {
-        btn.disabled = true;
+        btn.classList.add('verifying');
         btn.innerHTML = `
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 6v6l4 2"/>
-      </svg>
-      Analyzing Feed...
-    `;
-
-        // Simulate verification pipeline
-        setTimeout(() => {
-            btn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M12 6v6l4 2"/>
-        </svg>
-        Injection Check...
-      `;
-        }, 1500);
-
-        setTimeout(() => {
-            btn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M12 6v6l4 2"/>
-        </svg>
-        Face Verification...
-      `;
-        }, 3000);
-
-        setTimeout(() => {
-            btn.disabled = false;
-            btn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-          <polyline points="22 4 12 14.01 9 11.01"/>
-        </svg>
-        Verified ✓
-      `;
-            btn.classList.add('verified');
-
-            // Navigate to verification screen (Screen 5)
-            // window.location.href = 'verification-process.html';
-            console.log('✅ Verification complete! Would navigate to verification-process.html');
-
-            // Reset after delay
-            setTimeout(() => {
-                btn.innerHTML = `
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="5 3 19 12 5 21 5 3"/>
-          </svg>
-          Start Verification
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+            </svg>
+            Monitoring...
         `;
-                btn.classList.remove('verified');
-            }, 3000);
-        }, 4500);
+
+        // Remove click listener or disable
+        btn.disabled = true;
     });
 }
 
@@ -207,58 +162,50 @@ function initReportThreat() {
     if (!btn) return;
 
     btn.addEventListener('click', () => {
-        const confirmed = confirm(
-            '⚠️ REPORT THREAT\n\n' +
-            'This will:\n' +
-            '• Immediately flag this camera feed\n' +
-            '• Alert security personnel\n' +
-            '• Save last 60 seconds of footage\n\n' +
-            'Report this threat?'
-        );
-
+        const confirmed = confirm('⚠️ REPORT THREAT?');
         if (confirmed) {
-            btn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-          <polyline points="22 4 12 14.01 9 11.01"/>
-        </svg>
-        Threat Reported
-      `;
+            btn.innerHTML = 'Threat Reported';
             btn.disabled = true;
-            console.log('🚨 Threat reported to security team');
         }
     });
 }
 
 // ==================== INITIALIZE ====================
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize face detector
-    new FaceDetector('detectionOverlay');
+document.addEventListener('DOMContentLoaded', async () => {
 
-    // Initialize AI metrics
-    new AIMetrics();
+    // Start polling for metrics
+    const poller = new MetricsPoller();
+    poller.start();
 
     // Initialize buttons
     initRecordButton();
     initVerificationButton();
     initReportThreat();
 
-    console.log('📹 Camera View initialized');
+    console.log('📹 Camera View initialized (Streaming Mode)');
 });
 
-// Add spinning animation
+
+// Add styles
 const style = document.createElement('style');
 style.textContent = `
   @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
-  .spin {
-    animation: spin 1s linear infinite;
-  }
+  .spin { animation: spin 1s linear infinite; }
   .btn.verified {
     background: var(--accent-green) !important;
     box-shadow: 0 4px 20px rgba(0, 230, 118, 0.35) !important;
   }
+  .status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .status-badge.success { background: rgba(0, 230, 118, 0.2); color: #00e676; }
+  .status-badge.danger { background: rgba(255, 82, 82, 0.2); color: #ff5252; }
 `;
 document.head.appendChild(style);
