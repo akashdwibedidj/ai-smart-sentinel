@@ -1,18 +1,35 @@
 # AI Smart Sentinel - Dependencies
-# Phase 1, 2, and 3 Liveness Detection
 
-# Core dependencies
+# Core Libraries
 opencv-python>=4.8.0
 numpy>=1.24.0
 scipy>=1.11.0
+tqdm
+imutils
 
-# Backend API
+# Backend / Web
 flask>=2.3.0
 flask-cors>=4.0.0
-
-# ESP32-CAM Integration
 requests>=2.31.0
 
-# Optional: For advanced face detection (Phase 3 future enhancements)
-# mediapipe>=0.10.0
-# dlib>=19.24.0
+# Machine Learning & AI
+tensorflow>=2.5.0
+keras
+scikit-learn
+pandas
+matplotlib
+
+# Face Recognition / Detection
+# Note: dlib installation on Windows may require CMake and Visual Studio C++ build tools.
+dlib
+cmake
+
+# UI Frameworks (for face_recognition_project-main)
+streamlit
+streamlit-autorefresh
+
+# Utilities
+pickle-mixin
+
+# Windows Specific
+pywin32; sys_platform == 'win32'
